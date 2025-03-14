@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/features/home/bloc/home_bloc.dart';
 import 'package:news_app/features/home/widgets/news_item.dart';
+import 'package:news_app/features/home/widgets/search_news.dart';
 import 'package:news_app/features/utils/app_colors.dart';
 import 'package:news_app/features/utils/constants.dart';
 
@@ -45,27 +46,31 @@ class _HomePageState extends State<HomePage> {
                     color: AppColors.blue,
                   ),
                 )
-              : Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    if (state is HomeSuccessState)
-                      Expanded(
-                        child: ListView.builder(
-                          itemCount: (state).articles.length,
-                          itemBuilder: (context, index) {
-                            final newData = state.articles[index];
-                            return NewsItem(
-                                imageUrl: newData.urlToImage ??
-                                    Constants.errorImageUrl,
-                                title: newData.title ?? '',
-                                time: newData.publishedAt ?? '',
-                                description: newData.description ?? "",
-                                url: newData.url ?? '');
-                          },
+              : (state is HomeSuccessState)
+                  ? Column(
+                      children: [
+                        SearchNews(
+                          news: state.articles,
                         ),
-                      )
-                  ],
-                ),
+                        Expanded(
+                          child: ListView.builder(
+                            padding: EdgeInsets.zero,
+                            itemCount: (state).articles.length,
+                            itemBuilder: (context, index) {
+                              final newData = state.articles[index];
+                              return NewsItem(
+                                  imageUrl: newData.urlToImage ??
+                                      Constants.errorImageUrl,
+                                  title: newData.title ?? '',
+                                  time: newData.publishedAt ?? '',
+                                  description: newData.description ?? "",
+                                  url: newData.url ?? '');
+                            },
+                          ),
+                        ),
+                      ],
+                    )
+                  : SizedBox(),
         );
       },
     );
