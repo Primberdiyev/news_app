@@ -25,7 +25,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     }
   }
 
-
   void filterNewsEvent(FilterNewsEvent event, Emitter<HomeState> emit) {
     try {
       if (event.enteredWord.isEmpty) {
@@ -43,6 +42,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         emit(HomeSuccessState(articles: filteredNews));
       }
     } catch (e) {
+      HomeErrorState(errorMessage: e.toString());
       log('error $e');
     }
   }
