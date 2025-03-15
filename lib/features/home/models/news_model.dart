@@ -1,3 +1,5 @@
+import 'package:news_app/features/home/models/article_model.dart';
+
 class NewsModel {
   NewsModel({
     this.status,
@@ -22,53 +24,6 @@ class NewsModel {
       'status': status,
       'totalResults': totalResults,
       'articles': articles?.map((article) => article.toJson()).toList(),
-    };
-  }
-}
-
-class Article {
-  Article({
-    this.source,
-    this.author,
-    this.title,
-    this.description,
-    this.url,
-    this.urlToImage,
-    this.publishedAt,
-    this.content,
-  });
-
-  factory Article.fromJson(Map<String, dynamic> json) {
-    return Article(
-      source: json['source'] != null ? Source.fromJson(json['source']) : null,
-      author: json['author'],
-      title: json['title'],
-      description: json['description'],
-      url: json['url'],
-      urlToImage: json['urlToImage'],
-      publishedAt: json['publishedAt'],
-      content: json['content'],
-    );
-  }
-  final Source? source;
-  final String? author;
-  final String? title;
-  final String? description;
-  final String? url;
-  final String? urlToImage;
-  final String? publishedAt;
-  final String? content;
-
-  Map<String, dynamic> toJson() {
-    return {
-      'source': source?.toJson(),
-      'author': author,
-      'title': title,
-      'description': description,
-      'url': url,
-      'urlToImage': urlToImage,
-      'publishedAt': publishedAt,
-      'content': content,
     };
   }
 }
