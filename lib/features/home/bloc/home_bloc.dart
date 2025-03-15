@@ -5,7 +5,6 @@ import 'package:meta/meta.dart';
 import 'package:news_app/features/home/models/article_model.dart';
 import 'package:news_app/features/home/repositories/database.dart';
 import 'package:news_app/features/home/repositories/news_repositories.dart';
-
 part 'home_event.dart';
 part 'home_state.dart';
 
