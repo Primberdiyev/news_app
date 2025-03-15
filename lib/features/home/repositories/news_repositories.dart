@@ -11,7 +11,7 @@ class NewsRepositories {
   Future fetchNews() async {
     final String apiKey = Constants.key;
     final String url =
-        'https://newsapi.org/v2/everything?q=technology&sortBy=publishedAt&apiKey=$apiKey'; 
+        'https://newsapi.org/v2/everything?q=technology&sortBy=publishedAt&apiKey=$apiKey';
 
     try {
       final response = await http.get(Uri.parse(url));

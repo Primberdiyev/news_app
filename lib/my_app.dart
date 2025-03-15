@@ -11,7 +11,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primaryColor: AppColors.primary),
+      theme: ThemeData(
+        primaryColor: AppColors.primary,
+      ),
       home: BlocProvider(
         create: (context) => HomeBloc(),
         child: HomePage(),

@@ -30,6 +30,9 @@ class _SearchNewsState extends State<SearchNews> {
           Expanded(
             child: TextField(
               controller: controller,
+              onChanged: (value) => context
+                  .read<HomeBloc>()
+                  .add(FilterNewsEvent(controller.text, news: widget.news)),
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
