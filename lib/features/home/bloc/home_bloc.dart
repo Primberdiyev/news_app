@@ -20,7 +20,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     try {
       List<Article> news = await Database().getAllArticles();
       if (news.isEmpty) {
-         news = await NewsRepositories().fetchNews();
+        news = await NewsRepositories().fetchNews();
         await Database().saveArticles(news);
       }
       emit(HomeSuccessState(articles: news));
@@ -30,23 +30,24 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   void filterNewsEvent(FilterNewsEvent event, Emitter<HomeState> emit) {
+    emit(HomeLoadingState());
+
     try {
       if (event.enteredWord.isEmpty) {
         emit(HomeSuccessState(articles: event.news));
         return;
       }
 
-      if (state is HomeSuccessState) {
-        final currentState = state as HomeSuccessState;
-        final filteredNews = currentState.articles
-            .where((e) => e.title!
-                .toUpperCase()
-                .contains(event.enteredWord.toUpperCase()))
-            .toList();
-        emit(HomeSuccessState(articles: filteredNews));
-      }
+      final filteredNews = event.news
+          .where((e) => (e.title ?? '')
+              .toUpperCase()
+              .contains(event.enteredWord.toUpperCase()))
+          .toList();
+
+      emit(HomeSuccessState(
+          articles: [...filteredNews])); 
     } catch (e) {
-      HomeErrorState(errorMessage: e.toString());
+      emit(HomeErrorState(errorMessage: e.toString()));
       log('error $e');
     }
   }

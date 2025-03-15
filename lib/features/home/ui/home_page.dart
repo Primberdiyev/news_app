@@ -75,7 +75,7 @@ class _HomePageState extends State<HomePage> {
           floatingActionButton: FloatingActionButton(
             child: Icon(
               Icons.delete,
-              color: Colors.red,
+              color: AppColors.red,
             ),
             onPressed: () async {
               await Database().clearDatabase();
