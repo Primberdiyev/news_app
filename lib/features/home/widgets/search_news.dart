@@ -32,12 +32,13 @@ class _SearchNewsState extends State<SearchNews> {
               controller: controller,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
                     color: AppColors.darkgrey,
                   ),
+                  borderRadius: BorderRadius.circular(10),
                 ),
               ),
             ),
