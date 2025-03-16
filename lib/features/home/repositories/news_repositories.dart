@@ -5,10 +5,10 @@ import 'package:news_app/features/home/models/news_model.dart';
 import 'package:news_app/features/utils/constants.dart';
 
 class NewsRepositories {
-  Future fetchNews() async {
+  Future fetchNews({required String country, required String category}) async {
     final String apiKey = Constants.key;
     final String url =
-        'https://newsapi.org/v2/everything?q=technology&sortBy=publishedAt&apiKey=$apiKey';
+        'https://newsapi.org/v2/top-headlines?country=$country&category=$category&apiKey=$apiKey';
 
     try {
       final response = await http.get(Uri.parse(url));

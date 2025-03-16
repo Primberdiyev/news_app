@@ -60,17 +60,6 @@ class _SearchNewsState extends State<SearchNews> {
           SizedBox(
             width: 10,
           ),
-          IconButton(
-            onPressed: () {
-              context.read<HomeBloc>().add(FilterNewsEvent(
-                    controller.text,
-                  ));
-            },
-            icon: Icon(
-              Icons.search,
-              size: 40,
-            ),
-          )
         ],
       ),
     );

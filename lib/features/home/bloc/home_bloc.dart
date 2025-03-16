@@ -26,7 +26,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     try {
       List<Article>? news = await databaseService.getAllArticles();
       if (news.isEmpty) {
-        news = await newsRepositories.fetchNews();
+        news = await newsRepositories.fetchNews(
+            category: 'general', country: 'us');
         if ((news ?? []).isEmpty) {
           emit(HomeErrorState(errorMessage: AppTexts.notFount));
           return;
