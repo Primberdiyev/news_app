@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
       onGenerateRoute: onGenerateRoute,
       theme: ThemeData(
         primaryColor: AppColors.white,
+        scaffoldBackgroundColor: AppColors.white,
       ),
       home: BlocProvider(
         create: (context) => HomeBloc(),

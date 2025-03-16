@@ -8,7 +8,7 @@ class AppTextStyles {
         color: AppColors.black,
       );
   static TextStyle get body14W400 => TextStyle(
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: FontWeight.bold,
         color: AppColors.black,
       );

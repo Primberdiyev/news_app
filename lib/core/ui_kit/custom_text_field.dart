@@ -7,13 +7,15 @@ class CustomTextField extends StatelessWidget {
     super.key,
     required this.controller,
     required this.hintText,
+    this.topPaddingSize = 16,
   });
   final TextEditingController controller;
   final String hintText;
+  final double topPaddingSize;
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 32),
+      padding: EdgeInsets.only(top: topPaddingSize),
       child: TextField(
         controller: controller,
         decoration: InputDecoration(

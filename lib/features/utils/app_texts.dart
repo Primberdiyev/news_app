@@ -8,4 +8,6 @@ class AppTexts {
   static const String createOne = 'Create One';
   static const String emailAddress = 'Email Address';
   static const String password = 'password';
+  static const String firstName = 'FirstName';
+  static const String lasttName = 'LastName';
 }

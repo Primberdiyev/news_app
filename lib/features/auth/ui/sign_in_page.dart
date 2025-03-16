@@ -46,9 +46,8 @@ class _SignInPageState extends State<SignInPage> {
               controller: passwordController,
               hintText: AppTexts.password,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 30),
-              child: ContinueButton(),
+            ContinueButton(
+              function: () {},
             ),
             QuestionTextWidget(),
           ],
