@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:news_app/features/home/models/article_model.dart';
-import 'package:news_app/features/home/repositories/database.dart';
+import 'package:news_app/core/services/database_service.dart';
 import 'package:news_app/features/home/repositories/news_repositories.dart';
 import 'package:news_app/features/utils/app_texts.dart';
 part 'home_event.dart';
@@ -20,14 +20,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   void getNewsEvent(GetNewsEvent event, Emitter<HomeState> emit) async {
     emit(HomeLoadingState());
     try {
-      List<Article>? news = await Database().getAllArticles();
+      List<Article>? news = await DatabaseService().getAllArticles();
       if (news.isEmpty) {
         news = await NewsRepositories().fetchNews();
         if ((news ?? []).isEmpty) {
           emit(HomeErrorState(errorMessage: AppTexts.notFount));
           return;
         }
-        await Database().saveArticles(news ?? []);
+        await DatabaseService().saveArticles(news ?? []);
       }
       allNews = news;
       emit(HomeSuccessState(articles: news ?? []));

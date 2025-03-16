@@ -2,7 +2,7 @@ import 'package:isar/isar.dart';
 import 'package:news_app/features/home/models/article_model.dart';
 import 'package:path_provider/path_provider.dart';
 
-class Database {
+class DatabaseService {
   static late final Isar isar;
 
   Future<void> init() async {
