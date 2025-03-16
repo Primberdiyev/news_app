@@ -1,6 +1,6 @@
 part of 'home_bloc.dart';
 
-@immutable
+//@immutable
 abstract class HomeEvent {}
 
 class GetNewsEvent extends HomeEvent {}
@@ -13,4 +13,9 @@ class FilterNewsEvent extends HomeEvent {
   );
 
   final String enteredWord;
+}
+
+class FilterCountryEvent extends HomeEvent {
+  FilterCountryEvent(this.selectedCountry);
+  CountryModel? selectedCountry;
 }

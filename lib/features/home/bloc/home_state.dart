@@ -8,8 +8,9 @@ class HomeInitial extends HomeState {}
 class HomeLoadingState extends HomeState {}
 
 class HomeSuccessState extends HomeState {
-  HomeSuccessState({required this.articles});
+  HomeSuccessState({required this.articles, this.selectedCountry});
   List<Article> articles;
+  CountryModel? selectedCountry;
 }
 
 class HomeErrorState extends HomeState {

@@ -1,9 +1,8 @@
 import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 import 'package:news_app/features/home/models/article_model.dart';
 import 'package:news_app/core/services/isar_database_service.dart';
+import 'package:news_app/features/home/models/country_model.dart';
 import 'package:news_app/features/home/repositories/news_repositories.dart';
 import 'package:news_app/features/utils/app_texts.dart';
 part 'home_event.dart';
@@ -15,6 +14,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<GetNewsEvent>(getNewsEvent);
     on<FilterNewsEvent>(filterNewsEvent);
     on<DeleteNews>(deleteNews);
+    on<FilterCountryEvent>(filterCountries);
   }
   List<Article>? allNews = [];
 
@@ -35,7 +35,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         await databaseService.saveArticles(news ?? []);
       }
       allNews = news;
-      emit(HomeSuccessState(articles: news ?? []));
+      emit(HomeSuccessState(
+          articles: news ?? []));
     } catch (e) {
       emit(HomeErrorState(errorMessage: e.toString()));
     }
@@ -63,5 +64,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   void deleteNews(DeleteNews event, Emitter<HomeState> emit) async {
     await databaseService.clearDatabase();
+  }
+
+  void filterCountries(FilterCountryEvent event, Emitter<HomeState> emit) {
+    if (state is HomeSuccessState) {
+      final currentState = state as HomeSuccessState;
+      emit(HomeSuccessState(
+        articles: currentState.articles,
+        selectedCountry: event.selectedCountry,
+      ));
+    }
   }
 }
