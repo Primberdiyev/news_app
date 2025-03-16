@@ -33,6 +33,6 @@ class CountryFilterComponents {
     CountryModel(
         name: 'Turkey', imageAsset: 'assets/images/tr.png', shortName: 'tr'),
     CountryModel(
-        name: 'United\nStates', imageAsset: 'assets/images/us.png', shortName: 'us'),
+        name: 'United States', imageAsset: 'assets/images/us.png', shortName: 'us'),
   ];
 }
