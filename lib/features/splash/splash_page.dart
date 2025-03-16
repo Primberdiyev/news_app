@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/features/routes/name_routes.dart';
+import 'package:news_app/features/splash/bloc/splash_bloc.dart';
 import 'package:news_app/features/utils/app_images.dart';
 
 class SplashPage extends StatefulWidget {
@@ -13,20 +15,28 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     Future.delayed(Duration(seconds: 3), () {
-      if (context.mounted) {
-        Navigator.pushReplacementNamed(context, NameRoutes.signIn);
-      }
+      // ignore: use_build_context_synchronously
+      context.read<SplashBloc>().add(CheckAuthStatusEvent());
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Image.asset(
-          AppImages.splash.image,
-          height: 200,
+    return BlocListener<SplashBloc, SplashState>(
+      listener: (context, state) {
+        if (state is Registered) {
+          Navigator.pushReplacementNamed(context, NameRoutes.home);
+        } else {
+          Navigator.pushReplacementNamed(context, NameRoutes.signIn);
+        }
+      },
+      child: Scaffold(
+        body: Center(
+          child: Image.asset(
+            AppImages.splash.image,
+            height: 200,
+          ),
         ),
       ),
     );

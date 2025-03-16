@@ -10,4 +10,6 @@ class AppTexts {
   static const String password = 'password';
   static const String firstName = 'FirstName';
   static const String lasttName = 'LastName';
+  static const String userBox = 'userBox';
+  static const String notRegistered = 'This user is not registered';
 }

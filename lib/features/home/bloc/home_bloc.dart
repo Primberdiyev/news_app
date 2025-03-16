@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:news_app/features/home/models/article_model.dart';
-import 'package:news_app/core/services/database_service.dart';
+import 'package:news_app/core/services/isar_database_service.dart';
 import 'package:news_app/features/home/repositories/news_repositories.dart';
 import 'package:news_app/features/utils/app_texts.dart';
 part 'home_event.dart';
@@ -18,7 +18,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
   List<Article>? allNews = [];
 
-  final DatabaseService databaseService = DatabaseService();
+  final IsarDatabaseService databaseService = IsarDatabaseService();
   final NewsRepositories newsRepositories = NewsRepositories();
 
   void getNewsEvent(GetNewsEvent event, Emitter<HomeState> emit) async {
