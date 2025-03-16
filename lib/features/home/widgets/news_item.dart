@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:news_app/features/home/repositories/news_repositories.dart';
+import 'package:news_app/features/home/dialogs/news_dialog.dart';
 import 'package:news_app/features/utils/app_colors.dart';
 import 'package:news_app/features/utils/app_text_styles.dart';
 
@@ -22,12 +22,16 @@ class NewsItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        NewsRepositories().showMyDNewDialog(
-          context: context,
-          description: description,
-          imageUrl: imageUrl,
-          title: title,
-        );
+        showModalBottomSheet(
+            isScrollControlled: true,
+            context: context,
+            builder: (BuildContext context) {
+              return NewsDialog(
+                imageLink: imageUrl,
+                title: title,
+                description: description,
+              );
+            });
       },
       child: Container(
         width: MediaQuery.of(context).size.width,

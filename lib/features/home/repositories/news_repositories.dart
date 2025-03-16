@@ -1,9 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
-
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:news_app/features/home/dialogs/news_dialog.dart';
 import 'package:news_app/features/home/models/news_model.dart';
 import 'package:news_app/features/utils/constants.dart';
 
@@ -27,35 +24,5 @@ class NewsRepositories {
       log('Exception $e');
       return null;
     }
-  }
-
-  void showMyDNewDialog({
-    required BuildContext context,
-    required String imageUrl,
-    required String title,
-    required String description,
-  }) {
-    showGeneralDialog(
-      context: context,
-      barrierDismissible: true,
-      barrierLabel: '',
-      transitionDuration: const Duration(milliseconds: 300),
-      pageBuilder: (context, animation, secondaryAnimation) {
-        return NewsDialog(
-          imageLink: imageUrl,
-          title: title,
-          description: description,
-        );
-      },
-      transitionBuilder: (context, animation, secondaryAnimation, child) {
-        return SlideTransition(
-          position: Tween<Offset>(
-            begin: const Offset(0, 1),
-            end: Offset.zero,
-          ).animate(animation),
-          child: child,
-        );
-      },
-    );
   }
 }
