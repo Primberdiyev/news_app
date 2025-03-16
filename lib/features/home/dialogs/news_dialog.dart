@@ -45,7 +45,7 @@ class NewsDialog extends StatelessWidget {
           ),
           Text(
             title,
-            style: AppTextStyles.body24W600.copyWith(fontSize: 14),
+            style: AppTextStyles.head24W600.copyWith(fontSize: 14),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 25),

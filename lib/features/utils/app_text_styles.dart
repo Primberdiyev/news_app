@@ -7,9 +7,20 @@ class AppTextStyles {
         fontWeight: FontWeight.w400,
         color: AppColors.black,
       );
-  static TextStyle get body24W600 => TextStyle(
+  static TextStyle get body14W400 => TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+        color: AppColors.black,
+      );
+  static TextStyle get head24W600 => TextStyle(
         fontSize: 24,
         fontWeight: FontWeight.w600,
+        color: AppColors.black,
+      );
+
+  static TextStyle get head32W600 => TextStyle(
+        fontSize: 32,
+        fontWeight: FontWeight.bold,
         color: AppColors.black,
       );
 }
