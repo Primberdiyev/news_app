@@ -29,7 +29,7 @@ class _SearchNewsState extends State<SearchNews> {
       _debounce?.cancel();
     }
     _debounce = Timer(Duration(milliseconds: 500), () {
-      context.read<HomeBloc>().add(FilterNewsEvent(value, news: widget.news));
+      context.read<HomeBloc>().add(FilterNewsEvent(value));
     });
   }
 
@@ -62,9 +62,9 @@ class _SearchNewsState extends State<SearchNews> {
           ),
           IconButton(
             onPressed: () {
-              context
-                  .read<HomeBloc>()
-                  .add(FilterNewsEvent(controller.text, news: widget.news));
+              context.read<HomeBloc>().add(FilterNewsEvent(
+                    controller.text,
+                  ));
             },
             icon: Icon(
               Icons.search,

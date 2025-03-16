@@ -14,20 +14,24 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<HomeEvent>((event, emit) {});
     on<GetNewsEvent>(getNewsEvent);
     on<FilterNewsEvent>(filterNewsEvent);
+    on<DeleteNews>(deleteNews);
   }
   List<Article>? allNews = [];
+
+  final DatabaseService databaseService = DatabaseService();
+  final NewsRepositories newsRepositories = NewsRepositories();
 
   void getNewsEvent(GetNewsEvent event, Emitter<HomeState> emit) async {
     emit(HomeLoadingState());
     try {
-      List<Article>? news = await DatabaseService().getAllArticles();
+      List<Article>? news = await databaseService.getAllArticles();
       if (news.isEmpty) {
-        news = await NewsRepositories().fetchNews();
+        news = await newsRepositories.fetchNews();
         if ((news ?? []).isEmpty) {
           emit(HomeErrorState(errorMessage: AppTexts.notFount));
           return;
         }
-        await DatabaseService().saveArticles(news ?? []);
+        await databaseService.saveArticles(news ?? []);
       }
       allNews = news;
       emit(HomeSuccessState(articles: news ?? []));
@@ -43,7 +47,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
         return;
       }
-
       List<Article> filteredNews = (allNews ?? [])
           .where((e) => (e.title ?? '')
               .toUpperCase()
@@ -55,5 +58,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       emit(HomeErrorState(errorMessage: e.toString()));
       log('error $e');
     }
+  }
+
+  void deleteNews(DeleteNews event, Emitter<HomeState> emit) async {
+    await databaseService.clearDatabase();
   }
 }

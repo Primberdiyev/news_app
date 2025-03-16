@@ -5,9 +5,12 @@ abstract class HomeEvent {}
 
 class GetNewsEvent extends HomeEvent {}
 
-class FilterNewsEvent extends HomeEvent {
-  FilterNewsEvent(this.enteredWord, {required this.news});
+class DeleteNews extends HomeEvent {}
 
-  final List<Article> news;
+class FilterNewsEvent extends HomeEvent {
+  FilterNewsEvent(
+    this.enteredWord,
+  );
+
   final String enteredWord;
 }

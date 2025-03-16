@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/core/services/database_service.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/features/home/bloc/home_bloc.dart';
 import 'package:news_app/features/utils/app_colors.dart';
 
 class ActionButton extends StatelessWidget {
@@ -12,8 +13,8 @@ class ActionButton extends StatelessWidget {
         Icons.delete,
         color: AppColors.red,
       ),
-      onPressed: () async {
-        await DatabaseService().clearDatabase();
+      onPressed: () {
+        context.read<HomeBloc>().add(DeleteNews());
       },
     );
   }
