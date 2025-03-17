@@ -50,8 +50,14 @@ class NewsItem extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
-              placeholder: (context, url) => CircularProgressIndicator(
-                color: AppColors.blue,
+              placeholder: (context, url) => SizedBox(
+                height: 100,
+                width: 100,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: AppColors.blue,
+                  ),
+                ),
               ),
               errorWidget: (context, url, error) => Icon(
                 Icons.error,

@@ -30,7 +30,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     try {
       ///  List<Article>? news = await databaseService.getAllArticles();
       // if (news.isEmpty) {
-      //final String countryName = event.countryName ?? defaultCountry.shortName;
+     //final String countryName = event.countryName ?? defaultCountry.shortName;
       List<Article> news = await newsRepositories.fetchNews(
           category: event.categoryName, country: event.countryName);
       //   if ((news ?? []).isEmpty) {
@@ -91,7 +91,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   void changeFilterType(
       ChangeFilterTypeEvent event, Emitter<HomeState> emit) async {
     emit(HomeLoadingState());
-    // final currentState = state as HomeSuccessState;
     try {
       final String? category =
           event.filterType == 'category' ? 'technology' : null;

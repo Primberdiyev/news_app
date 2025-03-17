@@ -12,8 +12,10 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     on<CheckAuthStatusEvent>(checkAuthStatus);
   }
   final HiveDatabaseService hiveDatabaseService = HiveDatabaseService();
-  void checkAuthStatus(CheckAuthStatusEvent event, Emitter<SplashState> emit) {
+  void checkAuthStatus(
+      CheckAuthStatusEvent event, Emitter<SplashState> emit) async {
     emit(SplashLoading());
+    await Future.delayed(Duration(seconds: 3));
     final UserModel? userModel = hiveDatabaseService.getUserModel();
 
     try {

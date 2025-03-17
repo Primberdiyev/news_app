@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/features/home/bloc/home_bloc.dart';
 import 'package:news_app/features/routes/name_routes.dart';
 import 'package:news_app/features/splash/bloc/splash_bloc.dart';
 import 'package:news_app/features/utils/app_images.dart';
@@ -14,10 +15,9 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
-    Future.delayed(Duration(seconds: 3), () {
-      // ignore: use_build_context_synchronously
-      context.read<SplashBloc>().add(CheckAuthStatusEvent());
-    });
+    context.read<SplashBloc>().add(CheckAuthStatusEvent());
+    context.read<HomeBloc>().add(GetNewsEvent(countryName: 'us'));
+
     super.initState();
   }
 
@@ -27,7 +27,7 @@ class _SplashPageState extends State<SplashPage> {
       listener: (context, state) {
         if (state is Registered) {
           Navigator.pushReplacementNamed(context, NameRoutes.home);
-        } else {
+        } else if (state is UnRegistered) {
           Navigator.pushReplacementNamed(context, NameRoutes.signIn);
         }
       },
