@@ -9,7 +9,13 @@ class AppTexts {
   static const String emailAddress = 'Email Address';
   static const String password = 'password';
   static const String firstName = 'FirstName';
+  static const String bbcApp = 'BBC Application';
   static const String lasttName = 'LastName';
   static const String userBox = 'userBox';
   static const String notRegistered = 'This user is not registered';
+  static const String filteredBy = 'Filtered by';
+  static const String filterByCategory = 'Filter by Category';
+  static const String country = 'country';
+    static const String category = 'category';
+
 }

@@ -8,9 +8,21 @@ class HomeInitial extends HomeState {}
 class HomeLoadingState extends HomeState {}
 
 class HomeSuccessState extends HomeState {
-  HomeSuccessState({required this.articles, this.selectedCountry});
-  List<Article> articles;
+  HomeSuccessState({this.articles, this.selectedCountry, this.filterType});
+  List<Article>? articles;
   CountryModel? selectedCountry;
+  String? filterType;
+
+  HomeSuccessState copyWith(
+      {List<Article>? articles,
+      CountryModel? selectedCountry,
+      String? filterType}) {
+    return HomeSuccessState(
+      articles: articles ?? this.articles,
+      selectedCountry: selectedCountry ?? this.selectedCountry,
+      filterType: filterType ?? this.filterType,
+    );
+  }
 }
 
 class HomeErrorState extends HomeState {

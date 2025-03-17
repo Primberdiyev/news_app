@@ -19,7 +19,8 @@ class _FilterCountryState extends State<FilterCountry> {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
-        final defaultCountry = countryComponents.countryComponents.last;
+        final defaultCountry = context.read<HomeBloc>().defaultCountry;
+
         final CountryModel? selectedCountry = (state is HomeSuccessState)
             ? state.selectedCountry
             : defaultCountry;
@@ -37,7 +38,7 @@ class _FilterCountryState extends State<FilterCountry> {
             DropdownButton<CountryModel>(
               alignment: Alignment.centerLeft,
               value: countryComponents.countryComponents.firstWhere(
-                  (element) => element == selectedCountry,
+                  (element) => element.name == selectedCountry?.name,
                   orElse: () => countryComponents.countryComponents.last),
               items:
                   countryComponents.countryComponents.map((CountryModel value) {
@@ -60,7 +61,7 @@ class _FilterCountryState extends State<FilterCountry> {
               onChanged: (CountryModel? newValue) {
                 context.read<HomeBloc>().add(FilterCountryEvent(newValue));
               },
-            ),
+            )
           ],
         );
       },

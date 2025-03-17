@@ -33,10 +33,8 @@ class NewsItem extends StatelessWidget {
               );
             });
       },
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.all(10),
-        margin: EdgeInsets.all(5),
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 10),
         child: Row(
           children: [
             CachedNetworkImage(
