@@ -19,9 +19,15 @@ class FilterNewsEvent extends HomeEvent {
   final String enteredWord;
 }
 
-class FilterCountryEvent extends HomeEvent {
-  FilterCountryEvent(this.selectedCountry);
+class FilterCountryAndCategoryEvent extends HomeEvent {
+  FilterCountryAndCategoryEvent({
+    this.selectedCountry,
+    this.category,
+    this.filterType,
+  });
   CountryModel? selectedCountry;
+  String? category;
+  String? filterType;
 }
 
 class ChangeFilterTypeEvent extends HomeEvent {

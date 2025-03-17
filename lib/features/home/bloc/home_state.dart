@@ -8,19 +8,28 @@ class HomeInitial extends HomeState {}
 class HomeLoadingState extends HomeState {}
 
 class HomeSuccessState extends HomeState {
-  HomeSuccessState({this.articles, this.selectedCountry, this.filterType});
+  HomeSuccessState({
+    this.articles,
+    this.selectedCountry,
+    this.filterType,
+    this.selectedCategory,
+  });
   List<Article>? articles;
   CountryModel? selectedCountry;
   String? filterType;
+  String? selectedCategory;
 
-  HomeSuccessState copyWith(
-      {List<Article>? articles,
-      CountryModel? selectedCountry,
-      String? filterType}) {
+  HomeSuccessState copyWith({
+    List<Article>? articles,
+    CountryModel? selectedCountry,
+    String? filterType,
+    String? selectedCategory,
+  }) {
     return HomeSuccessState(
       articles: articles ?? this.articles,
       selectedCountry: selectedCountry ?? this.selectedCountry,
       filterType: filterType ?? this.filterType,
+      selectedCategory: selectedCategory ?? this.selectedCategory,
     );
   }
 }

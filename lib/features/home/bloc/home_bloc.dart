@@ -4,6 +4,7 @@ import 'package:news_app/features/home/models/article_model.dart';
 import 'package:news_app/core/services/isar_database_service.dart';
 import 'package:news_app/features/home/models/country_model.dart';
 import 'package:news_app/features/home/repositories/news_repositories.dart';
+import 'package:news_app/features/utils/constants.dart';
 import 'package:news_app/features/utils/country_filter_components.dart';
 part 'home_event.dart';
 part 'home_state.dart';
@@ -14,7 +15,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<GetNewsEvent>(getNewsEvent);
     on<FilterNewsEvent>(filterNewsEvent);
     on<DeleteNews>(deleteNews);
-    on<FilterCountryEvent>(filterCountries);
+    on<FilterCountryAndCategoryEvent>(filteCountryAndCategory);
     on<ChangeFilterTypeEvent>(changeFilterType);
   }
   List<Article>? allNews = [];
@@ -23,13 +24,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final NewsRepositories newsRepositories = NewsRepositories();
 
   final defaultCountry = CountryFilterComponents().countryComponents.first;
-
+  final defaultCategory = Constants().categories.first;
   void getNewsEvent(GetNewsEvent event, Emitter<HomeState> emit) async {
     emit(HomeLoadingState());
     try {
       ///  List<Article>? news = await databaseService.getAllArticles();
       // if (news.isEmpty) {
-      //  final String countryName = event.countryName ?? defaultCountry.shortName;
+      //final String countryName = event.countryName ?? defaultCountry.shortName;
       List<Article> news = await newsRepositories.fetchNews(
           category: event.categoryName, country: event.countryName);
       //   if ((news ?? []).isEmpty) {
@@ -39,7 +40,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       //   await databaseService.saveArticles(news ?? []);
       // }
       allNews = news;
-      emit(HomeSuccessState(articles: news));
+      emit(HomeSuccessState(articles: news, selectedCountry: defaultCountry));
     } catch (e) {
       emit(HomeErrorState(errorMessage: e.toString()));
     }
@@ -69,17 +70,19 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     await databaseService.clearDatabase();
   }
 
-  void filterCountries(
-      FilterCountryEvent event, Emitter<HomeState> emit) async {
+  void filteCountryAndCategory(
+      FilterCountryAndCategoryEvent event, Emitter<HomeState> emit) async {
     emit(HomeLoadingState());
 
     try {
       final news = await newsRepositories.fetchNews(
-          country: event.selectedCountry?.shortName ?? 'us',
-          category: 'general');
+          country: event.selectedCountry?.shortName, category: event.category);
       emit(HomeSuccessState(
-          articles: news,
-          selectedCountry: event.selectedCountry ?? defaultCountry));
+        articles: news,
+        selectedCountry: event.selectedCountry,
+        selectedCategory: event.category,
+        filterType: event.filterType,
+      ));
     } catch (e) {
       emit(HomeErrorState(errorMessage: e.toString()));
     }
@@ -92,15 +95,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     try {
       final String? category =
           event.filterType == 'category' ? 'technology' : null;
-      final String? country = event.filterType == 'country' ? 'us' : null;
+      final CountryModel? country =
+          event.filterType == 'country' ? defaultCountry : null;
       List<Article> news = await newsRepositories.fetchNews(
         category: category,
-        country: country,
+        country: country?.shortName,
       );
       emit(HomeSuccessState(
-          articles: news,
-          filterType: event.filterType,
-          selectedCountry: defaultCountry));
+        articles: news,
+        filterType: event.filterType,
+        selectedCountry: country,
+      ));
     } catch (e) {
       HomeErrorState(errorMessage: e.toString());
     }

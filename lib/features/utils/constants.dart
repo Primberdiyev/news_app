@@ -4,4 +4,18 @@ class Constants {
   static const errorImageUrl =
       'https://www.lifewire.com/thmb/5Y8ggTdQiyLdq9us-IMpsACJP-s=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/alert-icon-5807a14f5f9b5805c2aa679c.PNG';
   static const String userKey = 'userKey';
+  static const String technology = 'technology';
+  static const String business = 'business';
+  static const String entertainment = 'entertainment';
+  static const String general = 'general';
+  static const String health = 'health';
+  static const String science = 'science';
+  List<String> categories = [
+    technology,
+    business,
+    entertainment,
+    general,
+    health,
+    science
+  ];
 }
