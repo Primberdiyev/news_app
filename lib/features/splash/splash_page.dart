@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/features/home/bloc/home_bloc.dart';
+import 'package:news_app/features/home/models/country_model.dart';
 import 'package:news_app/features/routes/name_routes.dart';
 import 'package:news_app/features/splash/bloc/splash_bloc.dart';
 import 'package:news_app/features/utils/app_images.dart';
+import 'package:news_app/features/utils/country_filter_components.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -13,10 +15,13 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
+  final CountryModel defaultCountry =
+      CountryFilterComponents().countryComponents.first;
+
   @override
   void initState() {
     context.read<SplashBloc>().add(CheckAuthStatusEvent());
-    context.read<HomeBloc>().add(GetNewsEvent(countryName: 'us'));
+    context.read<HomeBloc>().add(GetNewsEvent(country: defaultCountry));
 
     super.initState();
   }

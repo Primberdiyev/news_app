@@ -16,24 +16,32 @@ class CategoryFilter extends StatefulWidget {
 class _CategoryFilterState extends State<CategoryFilter> {
   final categories = Constants().categories;
   @override
+  void initState() {
+    // context.read<HomeBloc>().add(FilterCountryAndCategoryEvent(
+    //     category: categories.first, filterType: AppTexts.category));
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 70,
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
+          final defaultCategory = context.read<HomeBloc>().defaultCategory;
+
           return ListView.builder(
             itemCount: categories.length,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
-              final defaultCategory = context.read<HomeBloc>().defaultCategory;
               final item = categories[index];
               final selectedCategory = state is HomeSuccessState
                   ? state.selectedCategory
                   : defaultCategory;
               return GestureDetector(
                 onTap: () => context.read<HomeBloc>().add(
-                      FilterCountryAndCategoryEvent(
-                        category: item,
+                      GetNewsEvent(
+                        categoryName: item,
                         filterType: AppTexts.category,
                       ),
                     ),

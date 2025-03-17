@@ -18,14 +18,6 @@ class NewsModel {
   final String? status;
   final int? totalResults;
   final List<Article>? articles;
-
-  Map<String, dynamic> toJson() {
-    return {
-      'status': status,
-      'totalResults': totalResults,
-      'articles': articles?.map((article) => article.toJson()).toList(),
-    };
-  }
 }
 
 class Source {

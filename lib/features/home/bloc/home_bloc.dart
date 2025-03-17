@@ -1,9 +1,9 @@
-import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:news_app/features/home/models/article_model.dart';
 import 'package:news_app/core/services/isar_database_service.dart';
 import 'package:news_app/features/home/models/country_model.dart';
 import 'package:news_app/features/home/repositories/news_repositories.dart';
+import 'package:news_app/features/utils/app_texts.dart';
 import 'package:news_app/features/utils/constants.dart';
 import 'package:news_app/features/utils/country_filter_components.dart';
 part 'home_event.dart';
@@ -13,76 +13,25 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc() : super(HomeInitial()) {
     on<HomeEvent>((event, emit) {});
     on<GetNewsEvent>(getNewsEvent);
-    on<FilterNewsEvent>(filterNewsEvent);
+    // on<FilterNewsEvent>(filterNewsEvent);
     on<DeleteNews>(deleteNews);
-    on<FilterCountryAndCategoryEvent>(filteCountryAndCategory);
     on<ChangeFilterTypeEvent>(changeFilterType);
   }
-  List<Article>? allNews = [];
 
   final IsarDatabaseService databaseService = IsarDatabaseService();
   final NewsRepositories newsRepositories = NewsRepositories();
 
   final defaultCountry = CountryFilterComponents().countryComponents.first;
   final defaultCategory = Constants().categories.first;
+  List<Article> news = [];
   void getNewsEvent(GetNewsEvent event, Emitter<HomeState> emit) async {
     emit(HomeLoadingState());
-    try {
-      ///  List<Article>? news = await databaseService.getAllArticles();
-      // if (news.isEmpty) {
-     //final String countryName = event.countryName ?? defaultCountry.shortName;
-      List<Article> news = await newsRepositories.fetchNews(
-          category: event.categoryName, country: event.countryName);
-      //   if ((news ?? []).isEmpty) {
-      //     emit(HomeErrorState(errorMessage: AppTexts.notFount));
-      //     return;
-      //   }
-      //   await databaseService.saveArticles(news ?? []);
-      // }
-      allNews = news;
-      emit(HomeSuccessState(articles: news, selectedCountry: defaultCountry));
-    } catch (e) {
-      emit(HomeErrorState(errorMessage: e.toString()));
-    }
-  }
-
-  void filterNewsEvent(FilterNewsEvent event, Emitter<HomeState> emit) {
-    try {
-      if (event.enteredWord.isEmpty) {
-        emit(HomeSuccessState(articles: allNews ?? []));
-
-        return;
-      }
-      List<Article> filteredNews = (allNews ?? [])
-          .where((e) => (e.title ?? '')
-              .toUpperCase()
-              .contains(event.enteredWord.toUpperCase()))
-          .toList();
-
-      emit(HomeSuccessState(articles: filteredNews));
-    } catch (e) {
-      emit(HomeErrorState(errorMessage: e.toString()));
-      log('error $e');
-    }
-  }
-
-  void deleteNews(DeleteNews event, Emitter<HomeState> emit) async {
-    await databaseService.clearDatabase();
-  }
-
-  void filteCountryAndCategory(
-      FilterCountryAndCategoryEvent event, Emitter<HomeState> emit) async {
-    emit(HomeLoadingState());
 
     try {
-      final news = await newsRepositories.fetchNews(
-          country: event.selectedCountry?.shortName, category: event.category);
-      emit(HomeSuccessState(
-        articles: news,
-        selectedCountry: event.selectedCountry,
-        selectedCategory: event.category,
-        filterType: event.filterType,
-      ));
+      news = await newsRepositories.setAndGetNews(
+          event.country?.shortName, event.categoryName);
+
+      emit(HomeSuccessState(articles: news, selectedCountry: event.country));
     } catch (e) {
       emit(HomeErrorState(errorMessage: e.toString()));
     }
@@ -93,20 +42,21 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(HomeLoadingState());
     try {
       final String? category =
-          event.filterType == 'category' ? 'technology' : null;
+          event.filterType == AppTexts.category ? Constants.technology : null;
       final CountryModel? country =
-          event.filterType == 'country' ? defaultCountry : null;
-      List<Article> news = await newsRepositories.fetchNews(
-        category: category,
-        country: country?.shortName,
-      );
+          event.filterType == AppTexts.country ? defaultCountry : null;
+      news = await newsRepositories.setAndGetNews(country?.shortName, category);
       emit(HomeSuccessState(
         articles: news,
         filterType: event.filterType,
         selectedCountry: country,
       ));
     } catch (e) {
-      HomeErrorState(errorMessage: e.toString());
+      emit(HomeErrorState(errorMessage: e.toString()));
     }
+  }
+
+  void deleteNews(DeleteNews event, Emitter<HomeState> emit) async {
+    await databaseService.clearDatabase();
   }
 }

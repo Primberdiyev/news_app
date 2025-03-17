@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/features/home/bloc/home_bloc.dart';
 import 'package:news_app/features/utils/app_colors.dart';
 import 'package:news_app/features/utils/app_text_styles.dart';
+import 'package:news_app/features/utils/app_texts.dart';
 import 'package:news_app/features/utils/country_filter_components.dart';
 
 class FiltersCountry extends StatefulWidget {
@@ -33,7 +34,7 @@ class _FiltersWidgetState extends State<FiltersCountry> {
                   : defaultCountry;
               return GestureDetector(
                 onTap: () => context.read<HomeBloc>().add(
-                      FilterCountryAndCategoryEvent(selectedCountry: item),
+                      GetNewsEvent(country: item, filterType: AppTexts.country),
                     ),
                 child: Container(
                   height: 50,

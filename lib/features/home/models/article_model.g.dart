@@ -22,38 +22,43 @@ const ArticleSchema = CollectionSchema(
       name: r'author',
       type: IsarType.string,
     ),
-    r'content': PropertySchema(
+    r'category': PropertySchema(
       id: 1,
+      name: r'category',
+      type: IsarType.string,
+    ),
+    r'content': PropertySchema(
+      id: 2,
       name: r'content',
       type: IsarType.string,
     ),
     r'description': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'description',
       type: IsarType.string,
     ),
     r'publishedAt': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'publishedAt',
       type: IsarType.string,
     ),
     r'sourceId': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'sourceId',
       type: IsarType.string,
     ),
     r'title': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'title',
       type: IsarType.string,
     ),
     r'url': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'url',
       type: IsarType.string,
     ),
     r'urlToImage': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'urlToImage',
       type: IsarType.string,
     )
@@ -84,6 +89,7 @@ int _articleEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
+  bytesCount += 3 + object.category.length * 3;
   {
     final value = object.content;
     if (value != null) {
@@ -136,13 +142,14 @@ void _articleSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.author);
-  writer.writeString(offsets[1], object.content);
-  writer.writeString(offsets[2], object.description);
-  writer.writeString(offsets[3], object.publishedAt);
-  writer.writeString(offsets[4], object.sourceId);
-  writer.writeString(offsets[5], object.title);
-  writer.writeString(offsets[6], object.url);
-  writer.writeString(offsets[7], object.urlToImage);
+  writer.writeString(offsets[1], object.category);
+  writer.writeString(offsets[2], object.content);
+  writer.writeString(offsets[3], object.description);
+  writer.writeString(offsets[4], object.publishedAt);
+  writer.writeString(offsets[5], object.sourceId);
+  writer.writeString(offsets[6], object.title);
+  writer.writeString(offsets[7], object.url);
+  writer.writeString(offsets[8], object.urlToImage);
 }
 
 Article _articleDeserialize(
@@ -153,14 +160,15 @@ Article _articleDeserialize(
 ) {
   final object = Article(
     author: reader.readStringOrNull(offsets[0]),
-    content: reader.readStringOrNull(offsets[1]),
-    description: reader.readStringOrNull(offsets[2]),
-    publishedAt: reader.readStringOrNull(offsets[3]),
-    sourceId: reader.readStringOrNull(offsets[4]),
-    title: reader.readStringOrNull(offsets[5]),
-    url: reader.readStringOrNull(offsets[6]),
-    urlToImage: reader.readStringOrNull(offsets[7]),
+    content: reader.readStringOrNull(offsets[2]),
+    description: reader.readStringOrNull(offsets[3]),
+    publishedAt: reader.readStringOrNull(offsets[4]),
+    sourceId: reader.readStringOrNull(offsets[5]),
+    title: reader.readStringOrNull(offsets[6]),
+    url: reader.readStringOrNull(offsets[7]),
+    urlToImage: reader.readStringOrNull(offsets[8]),
   );
+  object.category = reader.readString(offsets[1]);
   object.id = id;
   return object;
 }
@@ -175,7 +183,7 @@ P _articleDeserializeProp<P>(
     case 0:
       return (reader.readStringOrNull(offset)) as P;
     case 1:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 2:
       return (reader.readStringOrNull(offset)) as P;
     case 3:
@@ -187,6 +195,8 @@ P _articleDeserializeProp<P>(
     case 6:
       return (reader.readStringOrNull(offset)) as P;
     case 7:
+      return (reader.readStringOrNull(offset)) as P;
+    case 8:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -423,6 +433,136 @@ extension ArticleQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'author',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> categoryEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'category',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> categoryGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'category',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> categoryLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'category',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> categoryBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'category',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> categoryStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'category',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> categoryEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'category',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> categoryContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'category',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> categoryMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'category',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> categoryIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'category',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> categoryIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'category',
         value: '',
       ));
     });
@@ -1524,6 +1664,18 @@ extension ArticleQuerySortBy on QueryBuilder<Article, Article, QSortBy> {
     });
   }
 
+  QueryBuilder<Article, Article, QAfterSortBy> sortByCategory() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'category', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterSortBy> sortByCategoryDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'category', Sort.desc);
+    });
+  }
+
   QueryBuilder<Article, Article, QAfterSortBy> sortByContent() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'content', Sort.asc);
@@ -1620,6 +1772,18 @@ extension ArticleQuerySortThenBy
   QueryBuilder<Article, Article, QAfterSortBy> thenByAuthorDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'author', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterSortBy> thenByCategory() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'category', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterSortBy> thenByCategoryDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'category', Sort.desc);
     });
   }
 
@@ -1729,6 +1893,13 @@ extension ArticleQueryWhereDistinct
     });
   }
 
+  QueryBuilder<Article, Article, QDistinct> distinctByCategory(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'category', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<Article, Article, QDistinct> distinctByContent(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1790,6 +1961,12 @@ extension ArticleQueryProperty
   QueryBuilder<Article, String?, QQueryOperations> authorProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'author');
+    });
+  }
+
+  QueryBuilder<Article, String, QQueryOperations> categoryProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'category');
     });
   }
 

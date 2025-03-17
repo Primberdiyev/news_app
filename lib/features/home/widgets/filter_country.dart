@@ -59,8 +59,7 @@ class _FilterCountryState extends State<FilterCountry> {
                 );
               }).toList(),
               onChanged: (CountryModel? newValue) {
-                context.read<HomeBloc>().add(
-                    FilterCountryAndCategoryEvent(selectedCountry: newValue));
+                context.read<HomeBloc>().add(GetNewsEvent(country: newValue));
               },
             )
           ],

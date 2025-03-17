@@ -40,22 +40,33 @@ class Article {
   final String? urlToImage;
   final String? publishedAt;
   final String? content;
-
   final String? sourceId;
+  late String category;
 
   @ignore
   Source? source;
 
-  Map<String, dynamic> toJson() {
-    return {
-      'author': author,
-      'title': title,
-      'description': description,
-      'url': url,
-      'urlToImage': urlToImage,
-      'publishedAt': publishedAt,
-      'content': content,
-      'source': source?.toJson(),
-    };
+  Article copyWith({
+    String? author,
+    String? title,
+    String? description,
+    String? url,
+    String? urlToImage,
+    String? publishedAt,
+    String? content,
+    String? sourceId,
+    String? category,
+  }) {
+    return Article(
+      author: author ?? this.author,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      url: url ?? this.url,
+      urlToImage: urlToImage ?? this.urlToImage,
+      publishedAt: publishedAt ?? this.publishedAt,
+      content: content ?? this.content,
+      sourceId: sourceId ?? this.sourceId,
+      source: source,
+    )..category = category ?? this.category;
   }
 }

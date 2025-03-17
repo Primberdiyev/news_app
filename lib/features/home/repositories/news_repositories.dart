@@ -1,10 +1,14 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
+import 'package:news_app/core/services/isar_database_service.dart';
+import 'package:news_app/features/home/models/article_model.dart';
 import 'package:news_app/features/home/models/news_model.dart';
+import 'package:news_app/features/utils/app_texts.dart';
 import 'package:news_app/features/utils/constants.dart';
 
 class NewsRepositories {
+  final IsarDatabaseService databaseService = IsarDatabaseService();
   Future fetchNews({String? country, String? category}) async {
     final String apiKey = Constants.key;
     final String type =
@@ -26,5 +30,20 @@ class NewsRepositories {
       log('Exception $e');
       return null;
     }
+  }
+
+  Future<List<Article>> setAndGetNews(String? country, String? category) async {
+    final String filterBy = country ?? category ?? AppTexts.defaultFilter;
+    List<Article> news = await fetchNews(
+      category: category,
+      country: country,
+    );
+    if (news.isNotEmpty) {
+      await databaseService.saveArticles(
+        articles: news,
+        category: filterBy,
+      );
+    }
+    return news;
   }
 }

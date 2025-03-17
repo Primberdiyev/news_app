@@ -13,15 +13,21 @@ class IsarDatabaseService {
     );
   }
 
-  Future<void> saveArticles(List<Article> articles) async {
+  Future<void> saveArticles({
+    required List<Article> articles,
+    required String category,
+  }) async {
+    List<Article> newArticles = articles.map((e) {
+      return e..category = category;
+    }).toList();
     await isar.writeTxn(() async {
-      await isar.articles.putAll(articles);
+      await isar.articles.putAll(newArticles);
     });
   }
 
-  Future<List<Article>> getAllArticles() async {
+  Future<List<Article>> getAllArticles({required String getCategory}) async {
     List<Article> news = [];
-    news = await isar.articles.where().findAll();
+    news = await isar.articles.filter().categoryEqualTo(getCategory).findAll();
     return news;
   }
 

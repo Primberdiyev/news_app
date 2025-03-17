@@ -16,6 +16,6 @@ class AppTexts {
   static const String filteredBy = 'Filtered by';
   static const String filterByCategory = 'Filter by Category';
   static const String country = 'country';
-    static const String category = 'category';
-
+  static const String category = 'category';
+  static const String defaultFilter = 'defaultFilter';
 }
