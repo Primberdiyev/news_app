@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/features/home/bloc/home_bloc.dart';
 import 'package:news_app/features/home/widgets/action_button.dart';
-import 'package:news_app/features/home/widgets/category_filter.dart';
 import 'package:news_app/features/home/widgets/failure_widget.dart';
 import 'package:news_app/features/home/widgets/filtered_by_widget.dart';
-import 'package:news_app/features/home/widgets/filters_country.dart';
 import 'package:news_app/features/home/widgets/loading_widget.dart';
 import 'package:news_app/features/home/widgets/news_item.dart';
+import 'package:news_app/features/home/widgets/sort_widget.dart';
 import 'package:news_app/features/utils/constants.dart';
+import 'package:news_app/features/utils/sort_components.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -24,6 +24,12 @@ class _HomePageState extends State<HomePage> {
       body: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
           if (state is HomeSuccessState) {
+            final bool isCountry = state.selectedCountry != null;
+            final items = isCountry
+                ? SortComponents.countryComponents
+                : SortComponents.categories;
+            final selectedItem =
+                isCountry ? state.selectedCountry : state.selectedCategory;
             return Padding(
               padding: const EdgeInsets.only(
                 top: 80,
@@ -37,9 +43,14 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(
                     height: 20,
                   ),
-                  state.selectedCountry != null
-                      ? FiltersCountry()
-                      : CategoryFilter(),
+                  // state.selectedCountry != null
+                  //     ? FiltersCountry()
+                  //     : CategoryFilter(),
+                  SortWidget(
+                    items: items,
+                    isCountry: isCountry,
+                    selectedItem: selectedItem,
+                  ),
                   Expanded(
                     child: ListView.builder(
                       padding: EdgeInsets.zero,

@@ -10,12 +10,4 @@ class Constants {
   static const String general = 'general';
   static const String health = 'health';
   static const String science = 'science';
-  List<String> categories = [
-    technology,
-    business,
-    entertainment,
-    general,
-    health,
-    science
-  ];
 }

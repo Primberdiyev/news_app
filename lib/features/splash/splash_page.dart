@@ -5,7 +5,7 @@ import 'package:news_app/features/home/models/country_model.dart';
 import 'package:news_app/features/routes/name_routes.dart';
 import 'package:news_app/features/splash/bloc/splash_bloc.dart';
 import 'package:news_app/features/utils/app_images.dart';
-import 'package:news_app/features/utils/country_filter_components.dart';
+import 'package:news_app/features/utils/sort_components.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -15,8 +15,7 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
-  final CountryModel defaultCountry =
-      CountryFilterComponents().countryComponents.first;
+  final CountryModel defaultCountry = SortComponents.countryComponents.first;
 
   @override
   void initState() {

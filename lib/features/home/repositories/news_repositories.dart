@@ -34,11 +34,13 @@ class NewsRepositories {
 
   Future<List<Article>> setAndGetNews(String? country, String? category) async {
     final String filterBy = country ?? category ?? AppTexts.defaultFilter;
-    List<Article> news = await fetchNews(
-      category: category,
-      country: country,
-    );
-    if (news.isNotEmpty) {
+    List<Article> news =
+        await databaseService.getAllArticles(getCategory: filterBy);
+    if (news.isEmpty) {
+      news = await fetchNews(
+        category: category,
+        country: country,
+      );
       await databaseService.saveArticles(
         articles: news,
         category: filterBy,

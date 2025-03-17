@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/features/home/bloc/home_bloc.dart';
 import 'package:news_app/features/home/models/article_model.dart';
 import 'package:news_app/features/utils/app_colors.dart';
-import 'package:news_app/features/utils/country_filter_components.dart';
+import 'package:news_app/features/utils/sort_components.dart';
 
 class SearchNews extends StatefulWidget {
   const SearchNews({super.key, required this.news});
@@ -17,7 +17,7 @@ class SearchNews extends StatefulWidget {
 
 class _SearchNewsState extends State<SearchNews> {
   final TextEditingController controller = TextEditingController();
-  final CountryFilterComponents countryComponents = CountryFilterComponents();
+  final SortComponents sortComponents = SortComponents();
   Timer? _debounce;
 
   @override

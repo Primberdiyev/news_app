@@ -1,7 +1,8 @@
 import 'package:news_app/features/home/models/country_model.dart';
+import 'package:news_app/features/utils/constants.dart';
 
-class CountryFilterComponents {
-  List<CountryModel> countryComponents = [
+class SortComponents {
+  static List<CountryModel> countryComponents = [
     CountryModel(
         name: 'United States',
         imageAsset: 'assets/images/us.png',
@@ -36,5 +37,13 @@ class CountryFilterComponents {
         name: 'Russia', imageAsset: 'assets/images/ru.png', shortName: 'ru'),
     CountryModel(
         name: 'Turkey', imageAsset: 'assets/images/tr.png', shortName: 'tr'),
+  ];
+  static List<String> categories = [
+    Constants.technology,
+    Constants.business,
+    Constants.entertainment,
+    Constants.general,
+    Constants.health,
+    Constants.science
   ];
 }
