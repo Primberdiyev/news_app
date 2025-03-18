@@ -13,8 +13,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc() : super(HomeInitial()) {
     on<HomeEvent>((event, emit) {});
     on<GetNewsEvent>(getNewsEvent);
-    on<DeleteNews>(deleteNews);
+    on<DeleteAllNews>(deleteNews);
     on<ChangeFilterTypeEvent>(changeFilterType);
+    on<DeleteNewsByIdEvent>(deleteNewsById);
   }
 
   final IsarDatabaseService databaseService = IsarDatabaseService();
@@ -28,8 +29,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
     try {
       news = await newsRepositories.setAndGetNews(
-          event.country?.shortName, event.categoryName);
-
+          country: event.country?.shortName, category: event.categoryName);
       emit(HomeSuccessState(
         articles: news,
         selectedCountry: event.country,
@@ -49,7 +49,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           event.filterType == AppTexts.category ? Constants.technology : null;
       final CountryModel? country =
           event.filterType == AppTexts.country ? defaultCountry : null;
-      news = await newsRepositories.setAndGetNews(country?.shortName, category);
+      news = await newsRepositories.setAndGetNews(
+          country: country?.shortName, category: category);
       emit(HomeSuccessState(
         articles: news,
         filterType: event.filterType,
@@ -61,7 +62,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     }
   }
 
-  void deleteNews(DeleteNews event, Emitter<HomeState> emit) async {
+  void deleteNews(DeleteAllNews event, Emitter<HomeState> emit) async {
     await databaseService.clearDatabase();
+  }
+
+  void deleteNewsById(
+      DeleteNewsByIdEvent event, Emitter<HomeState> emit) async {
+    databaseService.deleteNewsById(id: event.article.id);
+    if (state is HomeSuccessState) {
+      final currentState = state as HomeSuccessState;
+      news.remove(event.article);
+      emit(currentState.copyWith(articles: news));
+    }
   }
 }

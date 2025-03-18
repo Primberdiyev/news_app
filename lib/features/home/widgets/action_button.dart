@@ -14,7 +14,7 @@ class ActionButton extends StatelessWidget {
         color: AppColors.red,
       ),
       onPressed: () {
-        context.read<HomeBloc>().add(DeleteNews());
+        context.read<HomeBloc>().add(DeleteAllNews());
       },
     );
   }

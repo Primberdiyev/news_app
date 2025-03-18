@@ -10,7 +10,7 @@ class GetNewsEvent extends HomeEvent {
   String? filterType;
 }
 
-class DeleteNews extends HomeEvent {}
+class DeleteAllNews extends HomeEvent {}
 
 class FilterNewsEvent extends HomeEvent {
   FilterNewsEvent(
@@ -23,4 +23,9 @@ class ChangeFilterTypeEvent extends HomeEvent {
   ChangeFilterTypeEvent(this.filterType);
 
   String filterType;
+}
+
+class DeleteNewsByIdEvent extends HomeEvent {
+  DeleteNewsByIdEvent({required this.article});
+  Article article;
 }

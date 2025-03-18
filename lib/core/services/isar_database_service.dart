@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:isar/isar.dart';
 import 'package:news_app/features/home/models/article_model.dart';
 import 'package:path_provider/path_provider.dart';
@@ -35,5 +37,15 @@ class IsarDatabaseService {
     await isar.writeTxn(() async {
       await isar.articles.clear();
     });
+  }
+
+  Future<void> deleteNewsById({required Id id}) async {
+    try {
+      await isar.writeTxn(() async {
+        isar.articles.delete(id);
+      });
+    } catch (e) {
+      log('error during deleting article$e');
+    }
   }
 }

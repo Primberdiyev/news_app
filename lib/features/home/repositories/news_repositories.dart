@@ -32,7 +32,8 @@ class NewsRepositories {
     }
   }
 
-  Future<List<Article>> setAndGetNews(String? country, String? category) async {
+  Future<List<Article>> setAndGetNews(
+      {String? country, String? category}) async {
     final String filterBy = country ?? category ?? AppTexts.defaultFilter;
     List<Article> news =
         await databaseService.getAllArticles(getCategory: filterBy);

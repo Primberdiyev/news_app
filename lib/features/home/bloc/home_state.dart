@@ -9,12 +9,12 @@ class HomeLoadingState extends HomeState {}
 
 class HomeSuccessState extends HomeState {
   HomeSuccessState({
-    this.articles,
+    required this.articles,
     this.selectedCountry,
     this.filterType,
     this.selectedCategory,
   });
-  List<Article>? articles;
+  List<Article> articles;
   CountryModel? selectedCountry;
   String? filterType;
   String? selectedCategory;

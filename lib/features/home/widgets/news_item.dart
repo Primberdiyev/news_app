@@ -1,26 +1,17 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/extensions/date_time_ext.dart';
+import 'package:news_app/features/home/bloc/home_bloc.dart';
 import 'package:news_app/features/home/dialogs/news_dialog.dart';
+import 'package:news_app/features/home/models/article_model.dart';
 import 'package:news_app/features/utils/app_colors.dart';
 import 'package:news_app/features/utils/app_text_styles.dart';
 
 class NewsItem extends StatelessWidget {
-  const NewsItem({
-    super.key,
-    required this.imageUrl,
-    required this.title,
-    required this.time,
-    required this.description,
-    required this.url,
-    required this.author,
-  });
-  final String imageUrl;
-  final String title;
-  final String time;
-  final String description;
-  final String url;
-  final String author;
+  const NewsItem({super.key, required this.article});
+
+  final Article article;
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +22,9 @@ class NewsItem extends StatelessWidget {
             context: context,
             builder: (BuildContext context) {
               return NewsDialog(
-                imageLink: imageUrl,
-                title: title,
-                description: description,
+                imageLink: article.urlToImage ?? "",
+                title: article.title ?? '',
+                description: article.description ?? '',
               );
             });
       },
@@ -42,7 +33,7 @@ class NewsItem extends StatelessWidget {
         child: Row(
           children: [
             CachedNetworkImage(
-              imageUrl: imageUrl,
+              imageUrl: article.urlToImage ?? '',
               imageBuilder: (context, imageProvider) => Container(
                 width: 160,
                 height: 160,
@@ -77,28 +68,42 @@ class NewsItem extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    title,
+                    article.title ?? "",
                     style: AppTextStyles.body16W400,
                   ),
                   SizedBox(
                     height: 10,
                   ),
                   Text(
-                    'By $author',
+                    'By ${article.author}',
                     style: AppTextStyles.body14W400,
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text("Published ${time.getTimeAgo()}"),
+                      Text(
+                        "Published ${article.publishedAt?.getTimeAgo()}",
+                        style: AppTextStyles.body14W400
+                            .copyWith(fontSize: 12, color: AppColors.black),
+                      ),
                       Spacer(),
                       IconButton(
+                        padding: EdgeInsets.zero,
                         onPressed: () {},
                         icon: Icon(Icons.edit),
                       ),
-                      Icon(
-                        Icons.delete,
-                        color: AppColors.red,
-                      ),
+                      IconButton(
+                        padding: EdgeInsets.zero,
+                        onPressed: () {
+                          context.read<HomeBloc>().add(
+                                DeleteNewsByIdEvent(article: article),
+                              );
+                        },
+                        icon: Icon(
+                          Icons.delete,
+                          color: AppColors.red,
+                        ),
+                      )
                     ],
                   ),
                 ],

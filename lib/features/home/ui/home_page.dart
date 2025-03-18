@@ -7,7 +7,6 @@ import 'package:news_app/features/home/widgets/filtered_by_widget.dart';
 import 'package:news_app/features/home/widgets/loading_widget.dart';
 import 'package:news_app/features/home/widgets/news_item.dart';
 import 'package:news_app/features/home/widgets/sort_widget.dart';
-import 'package:news_app/features/utils/constants.dart';
 import 'package:news_app/features/utils/sort_components.dart';
 
 class HomePage extends StatefulWidget {
@@ -51,17 +50,12 @@ class _HomePageState extends State<HomePage> {
                   Expanded(
                     child: ListView.builder(
                       padding: EdgeInsets.zero,
-                      itemCount: state.articles?.length ?? 0,
+                      itemCount: state.articles.length,
                       itemBuilder: (context, index) {
-                        final newData = state.articles?[index];
+                        final newData = state.articles[index];
                         return NewsItem(
-                            imageUrl:
-                                newData?.urlToImage ?? Constants.errorImageUrl,
-                            title: newData?.title ?? '',
-                            time: newData?.publishedAt ?? '',
-                            description: newData?.description ?? "",
-                            author: newData?.author ?? '',
-                            url: newData?.url ?? '');
+                          article: newData,
+                        );
                       },
                     ),
                   ),
