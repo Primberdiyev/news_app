@@ -18,4 +18,5 @@ class AppTexts {
   static const String country = 'country';
   static const String category = 'category';
   static const String defaultFilter = 'defaultFilter';
+  static const String invalidTime = 'Invalid Time';
 }

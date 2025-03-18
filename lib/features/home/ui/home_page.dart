@@ -43,9 +43,6 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(
                     height: 20,
                   ),
-                  // state.selectedCountry != null
-                  //     ? FiltersCountry()
-                  //     : CategoryFilter(),
                   SortWidget(
                     items: items,
                     isCountry: isCountry,
@@ -63,6 +60,7 @@ class _HomePageState extends State<HomePage> {
                             title: newData?.title ?? '',
                             time: newData?.publishedAt ?? '',
                             description: newData?.description ?? "",
+                            author: newData?.author ?? '',
                             url: newData?.url ?? '');
                       },
                     ),

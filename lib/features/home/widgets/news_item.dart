@@ -1,22 +1,26 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:news_app/core/extensions/date_time_ext.dart';
 import 'package:news_app/features/home/dialogs/news_dialog.dart';
 import 'package:news_app/features/utils/app_colors.dart';
 import 'package:news_app/features/utils/app_text_styles.dart';
 
 class NewsItem extends StatelessWidget {
-  const NewsItem(
-      {super.key,
-      required this.imageUrl,
-      required this.title,
-      required this.time,
-      required this.description,
-      required this.url});
+  const NewsItem({
+    super.key,
+    required this.imageUrl,
+    required this.title,
+    required this.time,
+    required this.description,
+    required this.url,
+    required this.author,
+  });
   final String imageUrl;
   final String title;
   final String time;
   final String description;
   final String url;
+  final String author;
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +44,8 @@ class NewsItem extends StatelessWidget {
             CachedNetworkImage(
               imageUrl: imageUrl,
               imageBuilder: (context, imageProvider) => Container(
-                width: 100,
-                height: 100,
+                width: 160,
+                height: 160,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: imageProvider,
@@ -80,8 +84,22 @@ class NewsItem extends StatelessWidget {
                     height: 10,
                   ),
                   Text(
-                    time,
-                    style: AppTextStyles.body16W400.copyWith(fontSize: 12),
+                    'By $author',
+                    style: AppTextStyles.body14W400,
+                  ),
+                  Row(
+                    children: [
+                      Text("Published ${time.getTimeAgo()}"),
+                      Spacer(),
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.edit),
+                      ),
+                      Icon(
+                        Icons.delete,
+                        color: AppColors.red,
+                      ),
+                    ],
                   ),
                 ],
               ),
