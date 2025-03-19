@@ -8,16 +8,20 @@ class CustomTextField extends StatelessWidget {
     required this.controller,
     required this.hintText,
     this.topPaddingSize = 16,
+    this.maxLine = 1,
   });
   final TextEditingController controller;
   final String hintText;
   final double topPaddingSize;
+  final int maxLine;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(top: topPaddingSize),
       child: TextField(
         controller: controller,
+        maxLines: null,
+        minLines: maxLine,
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(4),

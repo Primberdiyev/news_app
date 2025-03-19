@@ -7,6 +7,7 @@ import 'package:news_app/features/home/widgets/filtered_by_widget.dart';
 import 'package:news_app/features/home/widgets/loading_widget.dart';
 import 'package:news_app/features/home/widgets/news_item.dart';
 import 'package:news_app/features/home/widgets/sort_widget.dart';
+import 'package:news_app/features/routes/name_routes.dart';
 import 'package:news_app/features/utils/sort_components.dart';
 
 class HomePage extends StatefulWidget {
@@ -46,6 +47,7 @@ class _HomePageState extends State<HomePage> {
                     items: items,
                     isCountry: isCountry,
                     selectedItem: selectedItem,
+                    function: () {},
                   ),
                   Expanded(
                     child: ListView.builder(
@@ -68,7 +70,27 @@ class _HomePageState extends State<HomePage> {
           return FailureWidget();
         },
       ),
-      floatingActionButton: ActionButton(),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(right: 10, left: 30),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            ActionButton(
+              icon: Icons.refresh,
+              function: () {
+                final homeBloc = context.read<HomeBloc>();
+                homeBloc.add(RefleshNewsEvent());
+              },
+            ),
+            ActionButton(
+              icon: Icons.add,
+              function: () {
+                Navigator.pushNamed(context, NameRoutes.addtArticle);
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -38,3 +38,15 @@ class EditNewsEvent extends HomeEvent {
 }
 
 class RefleshNewsEvent extends HomeEvent {}
+
+class PickImageEvent extends HomeEvent {}
+
+class CreateNewArticle extends HomeEvent {
+  CreateNewArticle(this.createdArticle);
+  Article createdArticle;
+}
+
+class ChangeCategoryEvent extends HomeEvent {
+  ChangeCategoryEvent(this.category);
+  String category;
+}

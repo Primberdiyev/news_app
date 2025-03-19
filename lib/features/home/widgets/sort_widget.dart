@@ -6,14 +6,17 @@ import 'package:news_app/features/utils/app_text_styles.dart';
 import 'package:news_app/features/utils/app_texts.dart';
 
 class SortWidget extends StatelessWidget {
-  const SortWidget(
-      {super.key,
-      required this.items,
-      this.selectedItem,
-      required this.isCountry});
+  const SortWidget({
+    super.key,
+    required this.items,
+    this.selectedItem,
+    required this.isCountry,
+    required this.function,
+  });
   final List items;
   final dynamic selectedItem;
   final bool isCountry;
+  final Function function;
 
   @override
   Widget build(BuildContext context) {

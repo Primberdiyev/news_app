@@ -41,6 +41,7 @@ class _EditDialogState extends State<EditDialog> {
     final size = MediaQuery.of(context).size;
     return Dialog(
       insetPadding: EdgeInsets.symmetric(horizontal: 10),
+      backgroundColor: AppColors.white,
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(

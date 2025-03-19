@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
+import 'package:flutter_imagekit/flutter_imagekit.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:news_app/core/services/isar_database_service.dart';
 import 'package:news_app/features/home/models/article_model.dart';
 import 'package:news_app/features/home/models/news_model.dart';
@@ -48,5 +51,24 @@ class NewsRepositories {
       );
     }
     return news;
+  }
+
+  Future<String> getImageLink() async {
+    String imageLink = '';
+    final XFile? image =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      final File file = File(image.path);
+      try {
+        await ImageKit.io(file, privateKey: Constants.imageKitKey).then(
+          (link) {
+            imageLink = link;
+          },
+        );
+      } catch (e) {
+        log('error $e');
+      }
+    }
+    return imageLink;
   }
 }

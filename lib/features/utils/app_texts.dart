@@ -23,4 +23,7 @@ class AppTexts {
   static const String description = 'Description';
   static const String cancel = 'Cancel';
   static const String save = 'Save';
+  static const String enterTitle = 'Enter Title of the new';
+  static const String enterDescription = 'Enter description of the new';
+  static const String author = 'author';
 }

@@ -70,4 +70,10 @@ class IsarDatabaseService {
       log('error on editing $e');
     }
   }
+
+  Future<void> createArticle(Article article) async {
+    await isar.writeTxn(() async {
+      await isar.articles.put(article);
+    });
+  }
 }

@@ -13,23 +13,26 @@ class HomeSuccessState extends HomeState {
     this.selectedCountry,
     this.filterType,
     this.selectedCategory,
+    this.pickedImageLink,
   });
   List<Article> articles;
   CountryModel? selectedCountry;
   String? filterType;
   String? selectedCategory;
-
+  String? pickedImageLink;
   HomeSuccessState copyWith({
     List<Article>? articles,
     CountryModel? selectedCountry,
     String? filterType,
     String? selectedCategory,
+    String? pickedImageLink,
   }) {
     return HomeSuccessState(
       articles: articles ?? this.articles,
       selectedCountry: selectedCountry ?? this.selectedCountry,
       filterType: filterType ?? this.filterType,
       selectedCategory: selectedCategory ?? this.selectedCategory,
+      pickedImageLink: pickedImageLink ?? this.pickedImageLink,
     );
   }
 }

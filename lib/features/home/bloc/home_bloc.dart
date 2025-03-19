@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:news_app/features/home/models/article_model.dart';
 import 'package:news_app/core/services/isar_database_service.dart';
@@ -17,6 +19,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<DeleteNewsByIdEvent>(deleteNewsById);
     on<EditNewsEvent>(editNews);
     on<RefleshNewsEvent>(refleshNews);
+    on<PickImageEvent>(pickImage);
+    on<CreateNewArticle>(createNewArticle);
+    on<ChangeCategoryEvent>(changeCategory);
   }
 
   final IsarDatabaseService databaseService = IsarDatabaseService();
@@ -91,6 +96,33 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         categoryName: currentState.selectedCategory,
         filterType: currentState.filterType,
       ));
+    }
+  }
+
+  void pickImage(PickImageEvent event, Emitter<HomeState> emit) async {
+    final imageLink = await newsRepositories.getImageLink();
+    if (state is HomeSuccessState) {
+      final currentSuccesState = state as HomeSuccessState;
+      emit(currentSuccesState.copyWith(pickedImageLink: imageLink));
+    }
+  }
+
+  void createNewArticle(CreateNewArticle event, Emitter<HomeState> emit) async {
+    final successState = state as HomeSuccessState;
+    emit(HomeLoadingState());
+    try {
+      await databaseService.createArticle(event.createdArticle);
+      emit(successState);
+    } catch (e) {
+      log('error on creating article $e');
+      emit(HomeErrorState(errorMessage: e.toString()));
+    }
+  }
+
+  void changeCategory(ChangeCategoryEvent event, Emitter<HomeState> emit) {
+    if (state is HomeSuccessState) {
+      final currentstate = state as HomeSuccessState;
+      emit(currentstate.copyWith(selectedCategory: event.category));
     }
   }
 }
