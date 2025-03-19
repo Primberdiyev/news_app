@@ -162,6 +162,7 @@ Article _articleDeserialize(
     author: reader.readStringOrNull(offsets[0]),
     content: reader.readStringOrNull(offsets[2]),
     description: reader.readStringOrNull(offsets[3]),
+    id: id,
     publishedAt: reader.readStringOrNull(offsets[4]),
     sourceId: reader.readStringOrNull(offsets[5]),
     title: reader.readStringOrNull(offsets[6]),
@@ -169,7 +170,6 @@ Article _articleDeserialize(
     urlToImage: reader.readStringOrNull(offsets[8]),
   );
   object.category = reader.readString(offsets[1]);
-  object.id = id;
   return object;
 }
 

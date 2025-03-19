@@ -6,6 +6,7 @@ part 'article_model.g.dart';
 @collection
 class Article {
   Article({
+    this.id = Isar.autoIncrement,
     this.author,
     this.title,
     this.description,
@@ -31,7 +32,7 @@ class Article {
       source: source,
     );
   }
-  Id id = Isar.autoIncrement;
+  Id id;
 
   final String? author;
   final String? title;
@@ -47,6 +48,7 @@ class Article {
   Source? source;
 
   Article copyWith({
+    Id? id,
     String? author,
     String? title,
     String? description,
@@ -67,6 +69,7 @@ class Article {
       content: content ?? this.content,
       sourceId: sourceId ?? this.sourceId,
       source: source,
+      id: id ?? this.id,
     )..category = category ?? this.category;
   }
 }

@@ -19,4 +19,8 @@ class AppTexts {
   static const String category = 'category';
   static const String defaultFilter = 'defaultFilter';
   static const String invalidTime = 'Invalid Time';
+  static const String title = 'Title';
+  static const String description = 'Description';
+  static const String cancel = 'Cancel';
+  static const String save = 'Save';
 }

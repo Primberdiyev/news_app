@@ -1,20 +1,22 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/extensions/date_time_ext.dart';
 import 'package:news_app/features/home/bloc/home_bloc.dart';
+import 'package:news_app/features/home/dialogs/edit_dialog.dart';
 import 'package:news_app/features/home/dialogs/news_dialog.dart';
 import 'package:news_app/features/home/models/article_model.dart';
+import 'package:news_app/features/home/widgets/cached_image_widget.dart';
 import 'package:news_app/features/utils/app_colors.dart';
 import 'package:news_app/features/utils/app_text_styles.dart';
+import 'package:news_app/features/utils/constants.dart';
 
 class NewsItem extends StatelessWidget {
   const NewsItem({super.key, required this.article});
-
   final Article article;
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
         showModalBottomSheet(
@@ -28,55 +30,34 @@ class NewsItem extends StatelessWidget {
               );
             });
       },
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 10),
+      child: Container(
+        width: size.width - 40,
+        margin: EdgeInsets.symmetric(vertical: 15),
+        height: 180,
         child: Row(
           children: [
-            CachedNetworkImage(
-              imageUrl: article.urlToImage ?? '',
-              imageBuilder: (context, imageProvider) => Container(
-                width: 160,
-                height: 160,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: imageProvider,
-                    fit: BoxFit.cover,
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              placeholder: (context, url) => SizedBox(
-                height: 100,
-                width: 100,
-                child: Center(
-                  child: CircularProgressIndicator(
-                    color: AppColors.blue,
-                  ),
-                ),
-              ),
-              errorWidget: (context, url, error) => Icon(
-                Icons.error,
-                size: 100,
-              ),
-            ),
+            CachedImageWidget(
+                imageLink: article.urlToImage ?? Constants.errorImageUrl),
             SizedBox(
               width: 20,
             ),
-            Expanded(
+            SizedBox(
+              height: 180,
+              width: size.width - 210,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     article.title ?? "",
                     style: AppTextStyles.body16W400,
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
+                  Spacer(),
                   Text(
                     'By ${article.author}',
                     style: AppTextStyles.body14W400,
+                  ),
+                  SizedBox(
+                    height: 10,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -87,23 +68,33 @@ class NewsItem extends StatelessWidget {
                             .copyWith(fontSize: 12, color: AppColors.black),
                       ),
                       Spacer(),
-                      IconButton(
-                        padding: EdgeInsets.zero,
-                        onPressed: () {},
-                        icon: Icon(Icons.edit),
+                      GestureDetector(
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return EditDialog(
+                                  article: article,
+                                   
+                                );
+                              });
+                        },
+                        child: Icon(Icons.edit),
                       ),
-                      IconButton(
-                        padding: EdgeInsets.zero,
-                        onPressed: () {
+                      SizedBox(
+                        width: 10,
+                      ),
+                      GestureDetector(
+                        onTap: () {
                           context.read<HomeBloc>().add(
                                 DeleteNewsByIdEvent(article: article),
                               );
                         },
-                        icon: Icon(
+                        child: Icon(
                           Icons.delete,
                           color: AppColors.red,
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ],

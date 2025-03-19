@@ -23,4 +23,9 @@ class AppTextStyles {
         fontWeight: FontWeight.bold,
         color: AppColors.black,
       );
+  static TextStyle get head20W600 => TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.w600,
+        color: AppColors.black,
+      );
 }

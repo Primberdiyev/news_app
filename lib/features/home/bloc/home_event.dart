@@ -29,3 +29,12 @@ class DeleteNewsByIdEvent extends HomeEvent {
   DeleteNewsByIdEvent({required this.article});
   Article article;
 }
+
+class EditNewsEvent extends HomeEvent {
+  EditNewsEvent({
+    required this.editedArticle,
+    required this.lastArticle,
+  });
+  Article editedArticle;
+  Article lastArticle;
+}

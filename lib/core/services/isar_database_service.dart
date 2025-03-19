@@ -48,4 +48,22 @@ class IsarDatabaseService {
       log('error during deleting article$e');
     }
   }
+
+  Future<void> editNews({required Article article}) async {
+    try {
+      await isar.writeTxn(() async {
+        final id = article.id;
+        final item = await isar.articles.get(id);
+        final Article newItem = item?.copyWith(
+              title: article.title,
+              description: article.description,
+              author: article.author,
+            ) ??
+            article;
+        await isar.articles.put(newItem);
+      });
+    } catch (e) {
+      log('error on editing $e');
+    }
+  }
 }
