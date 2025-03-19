@@ -49,11 +49,12 @@ class NewsItem extends StatelessWidget {
                 children: [
                   Text(
                     article.title ?? "",
-                    style: AppTextStyles.body16W400,
+                    style: AppTextStyles.body14W400.copyWith(
+                        fontWeight: FontWeight.bold, color: AppColors.black),
                   ),
                   Spacer(),
                   Text(
-                    'By ${article.author}',
+                    'By ${article.author ?? ''}',
                     style: AppTextStyles.body14W400,
                   ),
                   SizedBox(
@@ -75,7 +76,6 @@ class NewsItem extends StatelessWidget {
                               builder: (context) {
                                 return EditDialog(
                                   article: article,
-                                   
                                 );
                               });
                         },

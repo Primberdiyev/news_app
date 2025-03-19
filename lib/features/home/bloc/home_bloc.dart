@@ -13,10 +13,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc() : super(HomeInitial()) {
     on<HomeEvent>((event, emit) {});
     on<GetNewsEvent>(getNewsEvent);
-    on<DeleteAllNews>(deleteNews);
     on<ChangeFilterTypeEvent>(changeFilterType);
     on<DeleteNewsByIdEvent>(deleteNewsById);
     on<EditNewsEvent>(editNews);
+    on<RefleshNewsEvent>(refleshNews);
   }
 
   final IsarDatabaseService databaseService = IsarDatabaseService();
@@ -63,10 +63,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     }
   }
 
-  void deleteNews(DeleteAllNews event, Emitter<HomeState> emit) async {
-    await databaseService.clearDatabase();
-  }
-
   void deleteNewsById(
       DeleteNewsByIdEvent event, Emitter<HomeState> emit) async {
     databaseService.deleteNewsById(id: event.article.id);
@@ -83,6 +79,18 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       final currentState = state as HomeSuccessState;
       news[news.indexOf(event.lastArticle)] = event.editedArticle;
       emit(currentState.copyWith(articles: news));
+    }
+  }
+
+  void refleshNews(RefleshNewsEvent event, Emitter<HomeState> emit) async {
+    if (state is HomeSuccessState) {
+      final currentState = state as HomeSuccessState;
+      await databaseService.clearDatabase();
+      add(GetNewsEvent(
+        country: currentState.selectedCountry,
+        categoryName: currentState.selectedCategory,
+        filterType: currentState.filterType,
+      ));
     }
   }
 }

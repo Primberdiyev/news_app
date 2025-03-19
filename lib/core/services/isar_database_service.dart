@@ -19,12 +19,16 @@ class IsarDatabaseService {
     required List<Article> articles,
     required String category,
   }) async {
-    List<Article> newArticles = articles.map((e) {
-      return e..category = category;
-    }).toList();
-    await isar.writeTxn(() async {
-      await isar.articles.putAll(newArticles);
-    });
+    try {
+      List<Article> newArticles = articles.map((e) {
+        return e..category = category;
+      }).toList();
+      await isar.writeTxn(() async {
+        await isar.articles.putAll(newArticles);
+      });
+    } catch (e) {
+      log('error on saving articles');
+    }
   }
 
   Future<List<Article>> getAllArticles({required String getCategory}) async {

@@ -10,8 +10,6 @@ class GetNewsEvent extends HomeEvent {
   String? filterType;
 }
 
-class DeleteAllNews extends HomeEvent {}
-
 class FilterNewsEvent extends HomeEvent {
   FilterNewsEvent(
     this.enteredWord,
@@ -38,3 +36,5 @@ class EditNewsEvent extends HomeEvent {
   Article editedArticle;
   Article lastArticle;
 }
+
+class RefleshNewsEvent extends HomeEvent {}

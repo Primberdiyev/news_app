@@ -10,11 +10,12 @@ class ActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       child: Icon(
-        Icons.delete,
+        Icons.refresh,
         color: AppColors.red,
       ),
       onPressed: () {
-        context.read<HomeBloc>().add(DeleteAllNews());
+        final homeBloc = context.read<HomeBloc>();
+        homeBloc.add(RefleshNewsEvent());
       },
     );
   }
