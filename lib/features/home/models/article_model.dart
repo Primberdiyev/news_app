@@ -16,6 +16,7 @@ class Article {
     this.content,
     this.sourceId,
     this.source,
+    this.category,
   });
 
   factory Article.fromJson(Map<String, dynamic> json) {
@@ -42,7 +43,7 @@ class Article {
   final String? publishedAt;
   final String? content;
   final String? sourceId;
-  late String category;
+  final String? category;
 
   @ignore
   Source? source;
@@ -70,6 +71,7 @@ class Article {
       sourceId: sourceId ?? this.sourceId,
       source: source,
       id: id ?? this.id,
-    )..category = category ?? this.category;
+      category: category ?? this.category,
+    );
   }
 }

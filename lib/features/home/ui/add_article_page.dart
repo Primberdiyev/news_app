@@ -10,6 +10,7 @@ import 'package:news_app/features/utils/app_colors.dart';
 import 'package:news_app/features/utils/app_images.dart';
 import 'package:news_app/features/utils/app_text_styles.dart';
 import 'package:news_app/features/utils/app_texts.dart';
+import 'package:news_app/features/utils/sort_components.dart';
 
 class AddArticlePage extends StatefulWidget {
   const AddArticlePage({super.key});
@@ -125,13 +126,23 @@ class _AddArticleDialogState extends State<AddArticlePage> {
                     color: AppColors.primary,
                     text: AppTexts.save,
                     textColor: AppColors.white,
+                    isLoading: state is HomeLoadingState,
                     function: () {
-                      final newArticle = Article(
-                        title: titleController.text,
-                        description: descriptionController.text,
-                        author: authorController.text,
-                      
-                      );
+                      if (state is HomeSuccessState) {
+                        final category = state.selectedCategory ??
+                            SortComponents.categories.first;
+
+                        final urlImage = state.pickedImageLink;
+                        final newArticle = Article(
+                            title: titleController.text,
+                            description: descriptionController.text,
+                            author: authorController.text,
+                            category: category,
+                            urlToImage: urlImage);
+                        context
+                            .read<HomeBloc>()
+                            .add(CreateNewArticle(newArticle));
+                      }
                     },
                   ),
                 ),

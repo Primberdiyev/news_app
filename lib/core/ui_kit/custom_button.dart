@@ -9,12 +9,14 @@ class CustomButton extends StatelessWidget {
     required this.text,
     required this.textColor,
     required this.function,
+    this.isLoading = false,
   });
   final double buttonHeight;
   final Color color;
   final String text;
   final Color textColor;
   final VoidCallback function;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +29,16 @@ class CustomButton extends StatelessWidget {
         ),
       ),
       onPressed: function,
-      child: Text(
-        text,
-        style: AppTextStyles.head20W600.copyWith(
-          color: textColor,
-        ),
-      ),
+      child: isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : Text(
+              text,
+              style: AppTextStyles.head20W600.copyWith(
+                color: textColor,
+              ),
+            ),
     );
   }
 }

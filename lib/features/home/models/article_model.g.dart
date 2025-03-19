@@ -89,7 +89,12 @@ int _articleEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
-  bytesCount += 3 + object.category.length * 3;
+  {
+    final value = object.category;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   {
     final value = object.content;
     if (value != null) {
@@ -160,6 +165,7 @@ Article _articleDeserialize(
 ) {
   final object = Article(
     author: reader.readStringOrNull(offsets[0]),
+    category: reader.readStringOrNull(offsets[1]),
     content: reader.readStringOrNull(offsets[2]),
     description: reader.readStringOrNull(offsets[3]),
     id: id,
@@ -169,7 +175,6 @@ Article _articleDeserialize(
     url: reader.readStringOrNull(offsets[7]),
     urlToImage: reader.readStringOrNull(offsets[8]),
   );
-  object.category = reader.readString(offsets[1]);
   return object;
 }
 
@@ -183,7 +188,7 @@ P _articleDeserializeProp<P>(
     case 0:
       return (reader.readStringOrNull(offset)) as P;
     case 1:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 2:
       return (reader.readStringOrNull(offset)) as P;
     case 3:
@@ -438,8 +443,24 @@ extension ArticleQueryFilter
     });
   }
 
+  QueryBuilder<Article, Article, QAfterFilterCondition> categoryIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'category',
+      ));
+    });
+  }
+
+  QueryBuilder<Article, Article, QAfterFilterCondition> categoryIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'category',
+      ));
+    });
+  }
+
   QueryBuilder<Article, Article, QAfterFilterCondition> categoryEqualTo(
-    String value, {
+    String? value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -452,7 +473,7 @@ extension ArticleQueryFilter
   }
 
   QueryBuilder<Article, Article, QAfterFilterCondition> categoryGreaterThan(
-    String value, {
+    String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -467,7 +488,7 @@ extension ArticleQueryFilter
   }
 
   QueryBuilder<Article, Article, QAfterFilterCondition> categoryLessThan(
-    String value, {
+    String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -482,8 +503,8 @@ extension ArticleQueryFilter
   }
 
   QueryBuilder<Article, Article, QAfterFilterCondition> categoryBetween(
-    String lower,
-    String upper, {
+    String? lower,
+    String? upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -1964,7 +1985,7 @@ extension ArticleQueryProperty
     });
   }
 
-  QueryBuilder<Article, String, QQueryOperations> categoryProperty() {
+  QueryBuilder<Article, String?, QQueryOperations> categoryProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'category');
     });

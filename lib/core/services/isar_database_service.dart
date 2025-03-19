@@ -21,7 +21,7 @@ class IsarDatabaseService {
   }) async {
     try {
       List<Article> newArticles = articles.map((e) {
-        return e..category = category;
+        return e.copyWith(category: category);
       }).toList();
       await isar.writeTxn(() async {
         await isar.articles.putAll(newArticles);
