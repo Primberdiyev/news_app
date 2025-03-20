@@ -20,3 +20,7 @@ class SignInEvent extends AuthEvent {
   final String email;
   final String password;
 }
+
+class DeleteUserEvent extends AuthEvent {}
+
+class CheckUserAuth extends AuthEvent {}

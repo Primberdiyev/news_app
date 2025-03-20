@@ -30,8 +30,12 @@ class CustomButton extends StatelessWidget {
       ),
       onPressed: function,
       child: isLoading
-          ? Center(
-              child: CircularProgressIndicator(),
+          ? SizedBox(
+              height: buttonHeight,
+              width: buttonHeight,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
             )
           : Text(
               text,

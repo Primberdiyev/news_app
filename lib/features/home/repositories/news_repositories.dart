@@ -20,12 +20,13 @@ class NewsRepositories {
         'https://newsapi.org/v2/top-headlines?$type&apiKey=$apiKey';
 
     try {
-      final response = await http.get(Uri.parse(url));
+      final response = await http.get(Uri.parse(url)); 
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = json.decode(response.body);
         final allNews = NewsModel.fromJson(data);
         return allNews.articles;
       } else {
+        
         log('Error: ${response.statusCode}, ${response.body}');
         return null;
       }

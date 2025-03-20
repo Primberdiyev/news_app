@@ -19,4 +19,8 @@ class HiveDatabaseService {
   UserModel? getUserModel() {
     return boxUsers.get(Constants.userKey);
   }
+
+  void clearUserModel() {
+    boxUsers.delete(Constants.userKey);
+  }
 }

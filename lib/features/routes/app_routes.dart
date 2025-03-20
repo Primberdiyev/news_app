@@ -4,7 +4,7 @@ import 'package:news_app/features/auth/ui/sign_up_page.dart';
 import 'package:news_app/features/home/ui/add_article_page.dart';
 import 'package:news_app/features/home/ui/home_page.dart';
 import 'package:news_app/features/routes/name_routes.dart';
-import 'package:news_app/features/splash/splash_page.dart';
+import 'package:news_app/features/splash_page.dart';
 
 Route onGenerateRoute(RouteSettings settings) {
   switch (settings.name) {

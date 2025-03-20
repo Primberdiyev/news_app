@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/features/routes/name_routes.dart';
+import 'package:news_app/features/utils/app_colors.dart';
 import 'package:news_app/features/utils/app_text_styles.dart';
 import 'package:news_app/features/utils/app_texts.dart';
 
@@ -19,7 +20,8 @@ class QuestionTextWidget extends StatelessWidget {
           onTap: () => Navigator.pushNamed(context, NameRoutes.signUp),
           child: Text(
             AppTexts.createOne,
-            style: AppTextStyles.body14W400,
+            style: AppTextStyles.body14W400
+                .copyWith(color: AppColors.black, fontWeight: FontWeight.bold),
           ),
         ),
       ],

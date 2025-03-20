@@ -12,6 +12,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthEvent>((event, emit) {});
     on<SignUpEvent>(signUp);
     on<SignInEvent>(signIn);
+    on<DeleteUserEvent>(deleteUser);
+    on<CheckUserAuth>(checkUserAuth);
   }
   final HiveDatabaseService hiveService = HiveDatabaseService();
 
@@ -40,5 +42,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } catch (e) {
       AuthErrorState(errorMessage: e.toString());
     }
+  }
+
+  void deleteUser(DeleteUserEvent event, Emitter<AuthState> emit) {
+    hiveService.clearUserModel();
+  }
+
+  void checkUserAuth(CheckUserAuth event, Emitter<AuthState> emit) {
+    final UserModel? userModel = hiveService.getUserModel();
+    if (userModel == null) {
+      emit(AuthSuccessState(isRegistered: false));
+      return;
+    }
+    emit(AuthSuccessState(isRegistered: true));
   }
 }

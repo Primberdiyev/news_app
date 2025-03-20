@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/features/auth/bloc/auth_bloc.dart';
 import 'package:news_app/features/home/bloc/home_bloc.dart';
 import 'package:news_app/features/home/widgets/action_button.dart';
 import 'package:news_app/features/home/widgets/failure_widget.dart';
@@ -80,6 +81,7 @@ class _HomePageState extends State<HomePage> {
               function: () {
                 final homeBloc = context.read<HomeBloc>();
                 homeBloc.add(RefleshNewsEvent());
+                context.read<AuthBloc>().add(DeleteUserEvent());
               },
             ),
             ActionButton(

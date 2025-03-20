@@ -47,12 +47,26 @@ class _AddArticleDialogState extends State<AddArticlePage> {
                   },
                   child: CircleAvatar(
                     radius: 90,
-                    backgroundImage: state.pickedImageLink != null
-                        ? CachedNetworkImageProvider(
-                            state.pickedImageLink ?? '',
+                    backgroundColor: Colors.grey[300],
+                    child: state is HomeLoadingState
+                        ? CircularProgressIndicator(
+                            color: AppColors.primary,
                           )
-                        : AssetImage(
-                            AppImages.add.image,
+                        : ClipOval(
+                            child: state.pickedImageLink != null
+                                ? CachedNetworkImage(
+                                    imageUrl: state.pickedImageLink!,
+                                    fit: BoxFit.cover,
+                                    width: 180,
+                                    height: 180,
+                                    placeholder: (context, url) =>
+                                        CircularProgressIndicator(
+                                      color: AppColors.primary,
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
+                                  )
+                                : Image.asset(AppImages.add.image),
                           ),
                   ),
                 ),
