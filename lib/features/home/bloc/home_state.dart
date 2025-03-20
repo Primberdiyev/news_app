@@ -14,18 +14,21 @@ class HomeSuccessState extends HomeState {
     this.filterType,
     this.selectedCategory,
     this.pickedImageLink,
+    this.currentSlideIndex,
   });
   List<Article> articles;
   CountryModel? selectedCountry;
   String? filterType;
   String? selectedCategory;
   String? pickedImageLink;
+  int? currentSlideIndex;
   HomeSuccessState copyWith({
     List<Article>? articles,
     CountryModel? selectedCountry,
     String? filterType,
     String? selectedCategory,
     String? pickedImageLink,
+    int? currentSlideIndex,
   }) {
     return HomeSuccessState(
       articles: articles ?? this.articles,
@@ -33,6 +36,7 @@ class HomeSuccessState extends HomeState {
       filterType: filterType ?? this.filterType,
       selectedCategory: selectedCategory ?? this.selectedCategory,
       pickedImageLink: pickedImageLink ?? this.pickedImageLink,
+      currentSlideIndex: currentSlideIndex ?? this.currentSlideIndex,
     );
   }
 }

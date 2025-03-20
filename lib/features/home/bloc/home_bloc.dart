@@ -22,6 +22,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<PickImageEvent>(pickImage);
     on<CreateNewArticle>(createNewArticle);
     on<ChangeCategoryEvent>(changeCategory);
+    on<ChangeSlideIndexEvent>(changeSliderIndex);
   }
 
   final IsarDatabaseService databaseService = IsarDatabaseService();
@@ -124,5 +125,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       final currentstate = state as HomeSuccessState;
       emit(currentstate.copyWith(selectedCategory: event.category));
     }
+  }
+
+  void changeSliderIndex(ChangeSlideIndexEvent event, Emitter<HomeState> emit) {
+    final currentState = state as HomeSuccessState;
+    emit(currentState.copyWith(currentSlideIndex: event.slideIndex));
   }
 }

@@ -54,3 +54,8 @@ class ChangeCategoryEvent extends HomeEvent {
   ChangeCategoryEvent(this.category);
   String category;
 }
+
+class ChangeSlideIndexEvent extends HomeEvent {
+  ChangeSlideIndexEvent(this.slideIndex);
+  int slideIndex;
+}
