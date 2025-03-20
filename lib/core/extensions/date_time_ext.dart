@@ -8,14 +8,14 @@ extension DateTimeExt on String {
     }
     final now = DateTime.now();
     final difference = now.difference(dateTime);
-    if (difference.inSeconds < 60) {
-      return "$difference seconds ago";
-    } else if (difference.inMinutes < 60) {
-      return "$difference minutes ago";
-    } else if (difference.inHours < 24) {
-      return "$difference hours ago";
-    }
 
-    return "${difference.inDays} day ago";
+    if (difference.inSeconds < 60) {
+      return "${difference.inSeconds} seconds ago";
+    } else if (difference.inMinutes < 60) {
+      return "${difference.inMinutes} minutes ago";
+    } else if (difference.inHours < 24) {
+      return "${difference.inHours} hours ago";
+    }
+    return "${difference.inDays} days ago";
   }
 }

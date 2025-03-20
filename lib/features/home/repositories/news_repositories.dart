@@ -20,13 +20,12 @@ class NewsRepositories {
         'https://newsapi.org/v2/top-headlines?$type&apiKey=$apiKey';
 
     try {
-      final response = await http.get(Uri.parse(url)); 
+      final response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = json.decode(response.body);
         final allNews = NewsModel.fromJson(data);
         return allNews.articles;
       } else {
-        
         log('Error: ${response.statusCode}, ${response.body}');
         return null;
       }
@@ -39,19 +38,21 @@ class NewsRepositories {
   Future<List<Article>> setAndGetNews(
       {String? country, String? category}) async {
     final String filterBy = country ?? category ?? AppTexts.defaultFilter;
-    List<Article> news =
-        await databaseService.getAllArticles(getCategory: filterBy);
-    if (news.isEmpty) {
-      news = await fetchNews(
+    List<Article> newsFromAPI = await databaseService.getAllArticles(
+        getCategory: filterBy, isFromAPI: true);
+    List<Article> newsAddedByUser = await databaseService.getAllArticles(
+        getCategory: filterBy, isFromAPI: false);
+    if (newsFromAPI.isEmpty) {
+      newsFromAPI = await fetchNews(
         category: category,
         country: country,
       );
       await databaseService.saveArticles(
-        articles: news,
+        articles: newsAddedByUser + newsFromAPI,
         category: filterBy,
       );
     }
-    return news;
+    return newsAddedByUser + newsFromAPI;
   }
 
   Future<String> getImageLink() async {

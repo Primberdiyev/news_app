@@ -48,7 +48,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     hiveService.clearUserModel();
   }
 
-  void checkUserAuth(CheckUserAuth event, Emitter<AuthState> emit) {
+  void checkUserAuth(CheckUserAuth event, Emitter<AuthState> emit) async {
+    await Future.delayed(Duration(seconds: 3));
     final UserModel? userModel = hiveService.getUserModel();
     if (userModel == null) {
       emit(AuthSuccessState(isRegistered: false));

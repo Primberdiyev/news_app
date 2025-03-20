@@ -100,11 +100,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   void pickImage(PickImageEvent event, Emitter<HomeState> emit) async {
+    final currentSuccesState = state as HomeSuccessState;
+
+    emit(HomeLoadingState());
     final imageLink = await newsRepositories.getImageLink();
-    if (state is HomeSuccessState) {
-      final currentSuccesState = state as HomeSuccessState;
-      emit(currentSuccesState.copyWith(pickedImageLink: imageLink));
-    }
+    emit(currentSuccesState.copyWith(pickedImageLink: imageLink));
   }
 
   void createNewArticle(CreateNewArticle event, Emitter<HomeState> emit) async {
@@ -112,7 +112,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(HomeLoadingState());
     try {
       await databaseService.createArticle(event.createdArticle);
-      emit(successState);
+      emit(successState.copyWith(selectedCategory: event.selectedCategory));
     } catch (e) {
       log('error on creating article $e');
       emit(HomeErrorState(errorMessage: e.toString()));

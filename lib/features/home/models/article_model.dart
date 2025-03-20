@@ -14,9 +14,9 @@ class Article {
     this.urlToImage,
     this.publishedAt,
     this.content,
-    this.sourceId,
     this.source,
     this.category,
+    this.isFromAPI = true,
   });
 
   factory Article.fromJson(Map<String, dynamic> json) {
@@ -29,7 +29,6 @@ class Article {
       urlToImage: json['urlToImage'],
       publishedAt: json['publishedAt'],
       content: json['content'],
-      sourceId: source.id,
       source: source,
     );
   }
@@ -42,8 +41,8 @@ class Article {
   final String? urlToImage;
   final String? publishedAt;
   final String? content;
-  final String? sourceId;
   final String? category;
+  final bool isFromAPI;
 
   @ignore
   Source? source;
@@ -59,6 +58,7 @@ class Article {
     String? content,
     String? sourceId,
     String? category,
+    bool? isFromAPI,
   }) {
     return Article(
       author: author ?? this.author,
@@ -68,10 +68,10 @@ class Article {
       urlToImage: urlToImage ?? this.urlToImage,
       publishedAt: publishedAt ?? this.publishedAt,
       content: content ?? this.content,
-      sourceId: sourceId ?? this.sourceId,
       source: source,
       id: id ?? this.id,
       category: category ?? this.category,
+      isFromAPI: isFromAPI ?? this.isFromAPI,
     );
   }
 }

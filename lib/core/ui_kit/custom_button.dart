@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/features/utils/app_colors.dart';
 import 'package:news_app/features/utils/app_text_styles.dart';
 
 class CustomButton extends StatelessWidget {
@@ -34,7 +35,9 @@ class CustomButton extends StatelessWidget {
               height: buttonHeight,
               width: buttonHeight,
               child: Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  color: AppColors.white,
+                ),
               ),
             )
           : Text(

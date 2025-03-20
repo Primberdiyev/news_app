@@ -31,15 +31,22 @@ class IsarDatabaseService {
     }
   }
 
-  Future<List<Article>> getAllArticles({required String getCategory}) async {
+  Future<List<Article>> getAllArticles({
+    required String getCategory,
+    required bool isFromAPI,
+  }) async {
     List<Article> news = [];
-    news = await isar.articles.filter().categoryEqualTo(getCategory).findAll();
+    news = await isar.articles
+        .filter()
+        .categoryEqualTo(getCategory)
+        .isFromAPIEqualTo(isFromAPI)
+        .findAll();
     return news;
   }
 
   Future<void> clearDatabase() async {
     await isar.writeTxn(() async {
-      await isar.articles.clear();
+      await isar.articles.filter().isFromAPIEqualTo(true).deleteAll();
     });
   }
 

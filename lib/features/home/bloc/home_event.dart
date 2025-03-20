@@ -42,8 +42,12 @@ class RefleshNewsEvent extends HomeEvent {}
 class PickImageEvent extends HomeEvent {}
 
 class CreateNewArticle extends HomeEvent {
-  CreateNewArticle(this.createdArticle);
+  CreateNewArticle({
+    required this.createdArticle,
+    required this.selectedCategory,
+  });
   Article createdArticle;
+  String selectedCategory;
 }
 
 class ChangeCategoryEvent extends HomeEvent {
