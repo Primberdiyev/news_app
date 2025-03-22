@@ -1,17 +1,14 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/features/home/bloc/home_bloc.dart';
 import 'package:news_app/features/home/widgets/action_button.dart';
-import 'package:news_app/features/home/widgets/cached_image_widget.dart';
 import 'package:news_app/features/home/widgets/failure_widget.dart';
 import 'package:news_app/features/home/widgets/filtered_by_widget.dart';
 import 'package:news_app/features/home/widgets/loading_widget.dart';
 import 'package:news_app/features/home/widgets/news_item.dart';
+import 'package:news_app/features/home/widgets/slider_news_widget.dart';
 import 'package:news_app/features/home/widgets/sort_widget.dart';
 import 'package:news_app/features/routes/name_routes.dart';
-import 'package:news_app/features/utils/app_text_styles.dart';
-import 'package:news_app/features/utils/constants.dart';
 import 'package:news_app/features/utils/sort_components.dart';
 
 class HomePage extends StatefulWidget {
@@ -53,41 +50,8 @@ class _HomePageState extends State<HomePage> {
                     selectedItem: selectedItem,
                     function: () {},
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    child: CarouselSlider(
-                      items: state.articles
-                          .map(
-                            (e) => Stack(children: [
-                              CachedImageWidget(
-                                imageLink:
-                                    e.urlToImage ?? Constants.errorImageUrl,
-                                imageWidth: 220,
-                                imageHeight: 150,
-                              ),
-                              Positioned(
-                                bottom: 0,
-                                left: 0,
-                                right: 0,
-                                child: Text(
-                                  "${e.title ?? ''}'",
-                                  style: AppTextStyles.head20W600,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ]),
-                          )
-                          .toList(),
-                      options: CarouselOptions(
-                        autoPlay: true,
-                        onPageChanged: (index, reason) {
-                          context
-                              .read<HomeBloc>()
-                              .add(ChangeSlideIndexEvent(index));
-                        },
-                      ),
-                    ),
+                  SliderNewsWidget(
+                    articles: state.articles,
                   ),
                   Expanded(
                     child: ListView.builder(

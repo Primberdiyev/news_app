@@ -73,6 +73,23 @@ class _AddArticleDialogState extends State<AddArticlePage> {
                               radius: 90,
                               child: Image.network(
                                 state.pickedImageLink!,
+                                loadingBuilder:
+                                    (context, child, loadingProgress) {
+                                  if (loadingProgress == null) return child;
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      value:
+                                          loadingProgress.expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  (loadingProgress
+                                                          .expectedTotalBytes ??
+                                                      1)
+                                              : null,
+                                    ),
+                                  );
+                                },
                                 width: 180,
                                 fit: BoxFit.fill,
                                 height: 180,
