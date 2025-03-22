@@ -36,22 +36,24 @@ class NewsRepositories {
   }
 
   Future<List<Article>> setAndGetNews(
-      {String? country, String? category}) async {
-    final String filterBy = country ?? category ?? AppTexts.defaultFilter;
+      {String? country, String? category, bool isTesla = false}) async {
+    final String filterBy = country ?? category ?? AppTexts.tesla;
     List<Article> newsFromAPI = await databaseService.getAllArticles(
         getCategory: filterBy, isFromAPI: true);
     List<Article> newsAddedByUser = await databaseService.getAllArticles(
         getCategory: filterBy, isFromAPI: false);
-    if (newsFromAPI.isEmpty) {
+    if (newsFromAPI.isEmpty && !isTesla) {
       newsFromAPI = await fetchNews(
         category: category,
         country: country,
       );
-      await databaseService.saveArticles(
-        articles: newsAddedByUser + newsFromAPI,
-        category: filterBy,
-      );
+    } else if (newsFromAPI.isEmpty && isTesla) {
+      newsFromAPI = await getTeslaNews();
     }
+    await databaseService.saveArticles(
+      articles: newsAddedByUser + newsFromAPI,
+      category: filterBy,
+    );
     return newsAddedByUser + newsFromAPI;
   }
 
@@ -72,5 +74,24 @@ class NewsRepositories {
       }
     }
     return imageLink;
+  }
+
+  Future<List<Article>> getTeslaNews({String? query}) async {
+    final String apiKey = Constants.key;
+    final String url =
+        "https://newsapi.org/v2/everything?q=tesla&apiKey=$apiKey";
+
+    try {
+      final response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = json.decode(response.body);
+        final allNews = NewsModel.fromJson(data);
+        return allNews.articles ?? [];
+      }
+      return [];
+    } catch (e) {
+      log('error on getNewsByQuery $e');
+      return [];
+    }
   }
 }

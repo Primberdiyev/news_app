@@ -1,15 +1,12 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/features/home/bloc/home_bloc.dart';
-import 'package:news_app/features/home/models/article_model.dart';
 import 'package:news_app/features/utils/app_colors.dart';
-import 'package:news_app/features/utils/sort_components.dart';
 
 class SearchNews extends StatefulWidget {
-  const SearchNews({super.key, required this.news});
-  final List<Article> news;
+  const SearchNews({
+    super.key,
+  });
 
   @override
   State<SearchNews> createState() => _SearchNewsState();
@@ -17,29 +14,23 @@ class SearchNews extends StatefulWidget {
 
 class _SearchNewsState extends State<SearchNews> {
   final TextEditingController controller = TextEditingController();
-  final SortComponents sortComponents = SortComponents();
-  Timer? _debounce;
-
+  
   @override
   void dispose() {
     controller.dispose();
-    _debounce?.cancel();
     super.dispose();
   }
 
   void _onSearchChanged(String value) {
-    if (_debounce?.isActive ?? false) {
-      _debounce?.cancel();
-    }
-    _debounce = Timer(Duration(milliseconds: 500), () {
-      context.read<HomeBloc>().add(FilterNewsEvent(value));
-    });
+    context.read<HomeBloc>().add(FilterNewsEvent(controller.text));
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 30),
+      padding: const EdgeInsets.symmetric(
+        vertical: 30,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

@@ -26,4 +26,7 @@ class AppTexts {
   static const String enterTitle = 'Enter Title of the new';
   static const String enterDescription = 'Enter description of the new';
   static const String author = 'author';
+  static const String technology = 'technology';
+  static const String us = 'us';
+  static const String tesla = 'Tesla';
 }

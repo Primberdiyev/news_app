@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/features/home/bloc/home_bloc.dart';
-import 'package:news_app/features/home/widgets/action_button.dart';
-import 'package:news_app/features/home/widgets/failure_widget.dart';
+import 'package:news_app/features/home/ui/category/category_news.dart';
+import 'package:news_app/features/home/ui/country/country_news.dart';
+import 'package:news_app/features/home/ui/tesla_news/tesla_news.dart';
+import 'package:news_app/features/home/ui/profile/profile.dart';
 import 'package:news_app/features/home/widgets/filtered_by_widget.dart';
-import 'package:news_app/features/home/widgets/loading_widget.dart';
-import 'package:news_app/features/home/widgets/news_item.dart';
-import 'package:news_app/features/home/widgets/slider_news_widget.dart';
-import 'package:news_app/features/home/widgets/sort_widget.dart';
-import 'package:news_app/features/routes/name_routes.dart';
+import 'package:news_app/features/utils/app_colors.dart';
+import 'package:news_app/features/utils/app_images.dart';
+import 'package:news_app/features/utils/app_texts.dart';
 import 'package:news_app/features/utils/sort_components.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,82 +19,110 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final pageController = PageController();
+  final currentPagenIndex = ValueNotifier(0);
+  @override
+  void dispose() {
+    pageController.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<HomeBloc, HomeState>(
-        builder: (context, state) {
-          if (state is HomeSuccessState) {
-            final bool isCountry = state.selectedCountry != null;
-            final items = isCountry
-                ? SortComponents.countryComponents
-                : SortComponents.categories;
-            final selectedItem =
-                isCountry ? state.selectedCountry : state.selectedCategory;
-            return Padding(
-              padding: const EdgeInsets.only(
-                top: 80,
-                left: 20,
-                right: 20,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  FilteredByWidget(),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  SortWidget(
-                    items: items,
-                    isCountry: isCountry,
-                    selectedItem: selectedItem,
-                    function: () {},
-                  ),
-                  SliderNewsWidget(
-                    articles: state.articles,
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                      padding: EdgeInsets.zero,
-                      itemCount: state.articles.length,
-                      itemBuilder: (context, index) {
-                        final newData = state.articles[index];
-                        return NewsItem(
-                          article: newData,
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            );
-          } else if (state is HomeLoadingState) {
-            return LoadingWidget();
-          }
-          return FailureWidget();
-        },
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20, top: 80),
+            child: FilteredByWidget(),
+          ),
+          Expanded(
+            child: PageView(
+              controller: pageController,
+              onPageChanged: (value) {
+                currentPagenIndex.value = value;
+              },
+              children: [
+                TeslaNews(),
+                CategoryNews(),
+                CountryNews(),
+                Profile(),
+              ],
+            ),
+          ),
+        ],
       ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(right: 10, left: 30),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            ActionButton(
-              icon: Icons.refresh,
-              function: () {
-                final homeBloc = context.read<HomeBloc>();
-                homeBloc.add(RefleshNewsEvent());
-                //  context.read<AuthBloc>().add(DeleteUserEvent());
-              },
+      bottomNavigationBar: ValueListenableBuilder(
+        valueListenable: currentPagenIndex,
+        builder: (context, value, child) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    pageController.jumpToPage(0);
+                    context.read<HomeBloc>().add(GetNewsEvent(isTesla: true));
+                  },
+                  icon: Icon(
+                    Icons.search,
+                    color: value == 0 ? AppColors.blue : Colors.black,
+                    size: 40,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    pageController.jumpToPage(1);
+                    context.read<HomeBloc>().add(
+                          GetNewsEvent(
+                            categoryName: AppTexts.technology,
+                            country: null,
+                            filterType: AppTexts.category,
+                          ),
+                        );
+                  },
+                  icon: Image.asset(
+                    AppImages.category.image,
+                    height: 40,
+                    width: 40,
+                    color: value == 1 ? AppColors.blue : Colors.black,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    pageController.jumpToPage(2);
+                    context.read<HomeBloc>().add(
+                          GetNewsEvent(
+                            categoryName: null,
+                            country: SortComponents.countryComponents.first,
+                            filterType: AppTexts.country,
+                          ),
+                        );
+                  },
+                  icon: Image.asset(
+                    AppImages.country.image,
+                    width: 40,
+                    height: 40,
+                    color: value == 2 ? AppColors.blue : Colors.black,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    pageController.jumpToPage(3);
+                  },
+                  icon: Image.asset(
+                    AppImages.profile.image,
+                    height: 40,
+                    width: 40,
+                    color: value == 3 ? AppColors.blue : Colors.black,
+                  ),
+                ),
+              ],
             ),
-            ActionButton(
-              icon: Icons.add,
-              function: () {
-                Navigator.pushNamed(context, NameRoutes.addtArticle);
-              },
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

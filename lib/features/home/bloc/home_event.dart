@@ -4,10 +4,12 @@ part of 'home_bloc.dart';
 abstract class HomeEvent {}
 
 class GetNewsEvent extends HomeEvent {
-  GetNewsEvent({this.country, this.categoryName, this.filterType});
+  GetNewsEvent(
+      {this.country, this.categoryName, this.filterType, this.isTesla});
   CountryModel? country;
   String? categoryName;
   String? filterType;
+  bool? isTesla;
 }
 
 class FilterNewsEvent extends HomeEvent {
@@ -59,3 +61,5 @@ class ChangeSlideIndexEvent extends HomeEvent {
   ChangeSlideIndexEvent(this.slideIndex);
   int slideIndex;
 }
+
+class GetTeslaNewEvent extends HomeEvent {}

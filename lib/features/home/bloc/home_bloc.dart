@@ -23,26 +23,29 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<CreateNewArticle>(createNewArticle);
     on<ChangeCategoryEvent>(changeCategory);
     on<ChangeSlideIndexEvent>(changeSliderIndex);
+    on<GetTeslaNewEvent>(getTeslaNews);
+    on<FilterNewsEvent>(filterNews);
   }
 
   final IsarDatabaseService databaseService = IsarDatabaseService();
   final NewsRepositories newsRepositories = NewsRepositories();
-
   final defaultCountry = SortComponents.countryComponents.first;
   final defaultCategory = SortComponents.categories.first;
-  List<Article> news = [];
   void getNewsEvent(GetNewsEvent event, Emitter<HomeState> emit) async {
     emit(HomeLoadingState());
 
     try {
-      news = await newsRepositories.setAndGetNews(
-          country: event.country?.shortName, category: event.categoryName);
+      final news = await newsRepositories.setAndGetNews(
+        country: event.country?.shortName,
+        category: event.categoryName,
+        isTesla: event.isTesla ?? false,
+      );
       emit(HomeSuccessState(
-        articles: news,
-        selectedCountry: event.country,
-        selectedCategory: event.categoryName,
-        filterType: event.filterType,
-      ));
+          articles: news,
+          selectedCountry: event.country,
+          selectedCategory: event.categoryName,
+          filterType: event.filterType,
+          originalArticles: news));
     } catch (e) {
       emit(HomeErrorState(errorMessage: e.toString()));
     }
@@ -56,7 +59,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           event.filterType == AppTexts.category ? Constants.technology : null;
       final CountryModel? country =
           event.filterType == AppTexts.country ? defaultCountry : null;
-      news = await newsRepositories.setAndGetNews(
+      final news = await newsRepositories.setAndGetNews(
           country: country?.shortName, category: category);
       emit(HomeSuccessState(
         articles: news,
@@ -74,6 +77,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     databaseService.deleteNewsById(id: event.article.id);
     if (state is HomeSuccessState) {
       final currentState = state as HomeSuccessState;
+      final news = currentState.articles;
       news.remove(event.article);
       emit(currentState.copyWith(articles: news));
     }
@@ -83,6 +87,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     await databaseService.editNews(article: event.editedArticle);
     if (state is HomeSuccessState) {
       final currentState = state as HomeSuccessState;
+      final news = currentState.articles;
       news[news.indexOf(event.lastArticle)] = event.editedArticle;
       emit(currentState.copyWith(articles: news));
     }
@@ -130,5 +135,32 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   void changeSliderIndex(ChangeSlideIndexEvent event, Emitter<HomeState> emit) {
     final currentState = state as HomeSuccessState;
     emit(currentState.copyWith(currentSlideIndex: event.slideIndex));
+  }
+
+  void getTeslaNews(GetTeslaNewEvent event, Emitter<HomeState> emit) async {
+    emit(HomeLoadingState());
+
+    try {
+      final news = await newsRepositories.setAndGetNews(isTesla: true);
+
+      emit(HomeSuccessState(articles: news, originalArticles: news));
+    } catch (e) {
+      log('error on getting news by query $e');
+      emit(HomeErrorState(errorMessage: e.toString()));
+    }
+  }
+
+  void filterNews(FilterNewsEvent event, Emitter<HomeState> emit) {
+    if (state is HomeSuccessState) {
+      final currentState = state as HomeSuccessState;
+      final news = currentState.originalArticles;
+
+      final filteredNews = (news ?? [])
+          .where((element) => (element.title ?? '')
+              .toLowerCase()
+              .contains(event.enteredWord.toLowerCase()))
+          .toList();
+      emit(currentState.copyWith(articles: filteredNews));
+    }
   }
 }
