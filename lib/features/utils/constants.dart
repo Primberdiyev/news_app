@@ -11,4 +11,8 @@ class Constants {
   static const String health = 'health';
   static const String science = 'science';
   static const String imageKitKey = 'private_vIDBjbhVlUQkMIZkACB4mHbbK8g=';
+  static const String imageKey = 'imageKey';
+  static const String userImageLinkName = 'user_image.jpg';
+  static const String userImageKey = 'userImageKey';
+  static const String userDetail = 'userDetailBox';
 }

@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:news_app/core/services/hive_database_service.dart';
+import 'package:news_app/features/auth/models/user_model.dart';
 import 'package:news_app/features/home/models/article_model.dart';
 import 'package:news_app/core/services/isar_database_service.dart';
 import 'package:news_app/features/home/models/country_model.dart';
@@ -25,12 +27,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<ChangeSlideIndexEvent>(changeSliderIndex);
     on<GetTeslaNewEvent>(getTeslaNews);
     on<FilterNewsEvent>(filterNews);
+    on<GetUserModel>(getUserModel);
+    on<PickUserImageEvent>(pickUserImage);
   }
 
   final IsarDatabaseService databaseService = IsarDatabaseService();
   final NewsRepositories newsRepositories = NewsRepositories();
   final defaultCountry = SortComponents.countryComponents.first;
   final defaultCategory = SortComponents.categories.first;
+  final HiveDatabaseService hiveDatabaseService = HiveDatabaseService();
   void getNewsEvent(GetNewsEvent event, Emitter<HomeState> emit) async {
     emit(HomeLoadingState());
 
@@ -161,6 +166,24 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
               .contains(event.enteredWord.toLowerCase()))
           .toList();
       emit(currentState.copyWith(articles: filteredNews));
+    }
+  }
+
+  void getUserModel(GetUserModel event, Emitter<HomeState> emit) async {
+    final currentState = state as HomeSuccessState;
+    final userModel = hiveDatabaseService.getUserModel();
+    emit(currentState.copyWith(userModel: userModel));
+  }
+
+  void pickUserImage(PickUserImageEvent event, Emitter<HomeState> emit) async {
+    try {
+      final currentState = state as HomeSuccessState;
+      await hiveDatabaseService.pickUserImage();
+      final userModel = hiveDatabaseService.getUserModel();
+
+      emit(currentState.copyWith(userModel: userModel));
+    } catch (e) {
+      log('error $e');
     }
   }
 }

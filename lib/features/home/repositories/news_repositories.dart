@@ -61,6 +61,7 @@ class NewsRepositories {
     String imageLink = '';
     final XFile? image =
         await ImagePicker().pickImage(source: ImageSource.gallery);
+
     if (image != null) {
       final File file = File(image.path);
       try {

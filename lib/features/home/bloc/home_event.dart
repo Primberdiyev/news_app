@@ -63,3 +63,7 @@ class ChangeSlideIndexEvent extends HomeEvent {
 }
 
 class GetTeslaNewEvent extends HomeEvent {}
+
+class PickUserImageEvent extends HomeEvent {}
+
+class GetUserModel extends HomeEvent {}

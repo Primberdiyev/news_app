@@ -3,7 +3,8 @@ enum AppImages {
   add("assets/images/add.png"),
   category("assets/images/category.png"),
   country("assets/images/country.png"),
-  profile("assets/images/profile.png");
+  profile("assets/images/profile.png"),
+  userDefault("assets/images/user_default.png");
 
   const AppImages(this.image);
 

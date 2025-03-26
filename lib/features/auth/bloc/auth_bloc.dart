@@ -27,10 +27,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  void signIn(SignInEvent event, Emitter<AuthState> emit) {
+  void signIn(SignInEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoadingState());
     try {
-      final UserModel? userModel = hiveService.getUserModel();
+      final UserModel? userModel =  hiveService.getUserModel();
       if (userModel == null ||
           (userModel.email != event.email ||
               userModel.password != event.password)) {
@@ -50,7 +50,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   void checkUserAuth(CheckUserAuth event, Emitter<AuthState> emit) async {
     await Future.delayed(Duration(seconds: 3));
-    final UserModel? userModel = hiveService.getUserModel();
+    final UserModel? userModel =  hiveService.getUserModel();
     if (userModel == null) {
       emit(AuthSuccessState(isRegistered: false));
       return;

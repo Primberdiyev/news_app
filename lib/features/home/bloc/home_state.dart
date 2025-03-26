@@ -16,6 +16,7 @@ class HomeSuccessState extends HomeState {
     this.pickedImageLink,
     this.currentSlideIndex,
     this.originalArticles,
+    this.userModel,
   });
   List<Article> articles;
   List<Article>? originalArticles;
@@ -24,6 +25,9 @@ class HomeSuccessState extends HomeState {
   String? selectedCategory;
   String? pickedImageLink;
   int? currentSlideIndex;
+  UserModel? userModel;
+
+  
   HomeSuccessState copyWith({
     List<Article>? articles,
     List<Article>? originalArticles,
@@ -32,6 +36,7 @@ class HomeSuccessState extends HomeState {
     String? selectedCategory,
     String? pickedImageLink,
     int? currentSlideIndex,
+    UserModel? userModel,
   }) {
     return HomeSuccessState(
       articles: articles ?? this.articles,
@@ -41,6 +46,7 @@ class HomeSuccessState extends HomeState {
       pickedImageLink: pickedImageLink ?? this.pickedImageLink,
       currentSlideIndex: currentSlideIndex ?? this.currentSlideIndex,
       originalArticles: originalArticles ?? this.originalArticles,
+      userModel: userModel ?? this.userModel,
     );
   }
 }
