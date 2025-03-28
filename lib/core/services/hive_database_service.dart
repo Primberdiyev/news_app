@@ -43,8 +43,10 @@ class HiveDatabaseService {
     }
     final pickedImage = File(image.path);
     final Directory directory = await getApplicationDocumentsDirectory();
-    final savedFile = await pickedImage
-        .copy('${directory.path}/${Constants.userImageLinkName}');
+
+    String fileName = '${DateTime.now().millisecondsSinceEpoch}.png';
+    final savedFile = await pickedImage.copy('${directory.path}/$fileName');
+
     saveImageLink(imageLink: savedFile.path);
   }
 }

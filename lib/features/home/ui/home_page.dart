@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
                   icon: Icon(
                     Icons.search,
                     color: value == 0 ? AppColors.blue : Colors.black,
-                    size: 40,
+                    size: 30,
                   ),
                 ),
                 IconButton(
@@ -85,8 +85,8 @@ class _HomePageState extends State<HomePage> {
                   },
                   icon: Image.asset(
                     AppImages.category.image,
-                    height: 40,
-                    width: 40,
+                    height: 30,
+                    width: 30,
                     color: value == 1 ? AppColors.blue : Colors.black,
                   ),
                 ),
@@ -103,8 +103,8 @@ class _HomePageState extends State<HomePage> {
                   },
                   icon: Image.asset(
                     AppImages.country.image,
-                    width: 40,
-                    height: 40,
+                    width: 30,
+                    height: 30,
                     color: value == 2 ? AppColors.blue : Colors.black,
                   ),
                 ),
@@ -114,8 +114,8 @@ class _HomePageState extends State<HomePage> {
                   },
                   icon: Image.asset(
                     AppImages.profile.image,
-                    height: 40,
-                    width: 40,
+                    height: 30,
+                    width: 30,
                     color: value == 3 ? AppColors.blue : Colors.black,
                   ),
                 ),
