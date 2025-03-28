@@ -20,7 +20,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     context.read<AuthBloc>().add(CheckUserAuth());
-    //  context.read<HomeBloc>().add(GetNewsEvent(country: defaultCountry));
+    context.read<HomeBloc>().add(GetNewsEvent(country: defaultCountry));
     context.read<HomeBloc>().add(GetTeslaNewEvent());
 
     super.initState();

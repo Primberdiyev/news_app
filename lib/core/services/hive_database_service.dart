@@ -21,7 +21,7 @@ class HiveDatabaseService {
   }
 
   UserModel? getUserModel() {
-    final UserModel userModel = boxUsers.get(userKey);
+    final UserModel? userModel = boxUsers.get(userKey);
     return userModel;
   }
 
@@ -44,7 +44,7 @@ class HiveDatabaseService {
     final pickedImage = File(image.path);
     final Directory directory = await getApplicationDocumentsDirectory();
 
-    String fileName = '${DateTime.now().millisecondsSinceEpoch}.png';
+    String fileName = 'user_image.png';
     final savedFile = await pickedImage.copy('${directory.path}/$fileName');
 
     saveImageLink(imageLink: savedFile.path);
