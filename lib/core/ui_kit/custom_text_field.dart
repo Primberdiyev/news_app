@@ -9,20 +9,33 @@ class CustomTextField extends StatelessWidget {
     required this.hintText,
     this.topPaddingSize = 16,
     this.maxLine = 1,
+    this.showPassword = false,
+    this.function,
   });
   final TextEditingController controller;
   final String hintText;
   final double topPaddingSize;
   final int maxLine;
+  final bool showPassword;
+  final VoidCallback? function;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(top: topPaddingSize),
       child: TextField(
         controller: controller,
-        maxLines: null,
+        maxLines: showPassword ? 1 : maxLine,
+        obscureText: showPassword,
         minLines: maxLine,
         decoration: InputDecoration(
+          suffixIcon: function != null
+              ? IconButton(
+                  padding: EdgeInsets.zero,
+                  onPressed: function,
+                  icon: Icon(
+                      showPassword ? Icons.visibility : Icons.visibility_off),
+                )
+              : null,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(4),
             borderSide: BorderSide.none,

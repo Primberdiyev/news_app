@@ -29,6 +29,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<FilterNewsEvent>(filterNews);
     on<GetUserModel>(getUserModel);
     on<PickUserImageEvent>(pickUserImage);
+    on<ChangeShowPasswordValueEvent>(changeShowPasswordValue);
   }
 
   final IsarDatabaseService databaseService = IsarDatabaseService();
@@ -185,5 +186,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     } catch (e) {
       log('error $e');
     }
+  }
+
+  void changeShowPasswordValue(
+      ChangeShowPasswordValueEvent event, Emitter<HomeState> emit) {
+    final currentState = state as HomeSuccessState;
+    emit(currentState.copyWith(isObscured: !currentState.isObscured));
   }
 }

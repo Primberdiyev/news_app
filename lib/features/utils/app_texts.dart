@@ -7,7 +7,7 @@ class AppTexts {
   static const String haveAccount = 'Do you Have Account? ';
   static const String createOne = 'Create One';
   static const String emailAddress = 'Email Address';
-  static const String password = 'password';
+  static const String password = 'Password';
   static const String firstName = 'FirstName';
   static const String bbcApp = 'BBC Application';
   static const String lasttName = 'LastName';

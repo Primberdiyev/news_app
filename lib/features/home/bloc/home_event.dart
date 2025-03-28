@@ -67,3 +67,5 @@ class GetTeslaNewEvent extends HomeEvent {}
 class PickUserImageEvent extends HomeEvent {}
 
 class GetUserModel extends HomeEvent {}
+
+class ChangeShowPasswordValueEvent extends HomeEvent {}

@@ -17,6 +17,7 @@ class HomeSuccessState extends HomeState {
     this.currentSlideIndex,
     this.originalArticles,
     this.userModel,
+    this.isObscured = true,
   });
   List<Article> articles;
   List<Article>? originalArticles;
@@ -26,8 +27,8 @@ class HomeSuccessState extends HomeState {
   String? pickedImageLink;
   int? currentSlideIndex;
   UserModel? userModel;
+  bool isObscured;
 
-  
   HomeSuccessState copyWith({
     List<Article>? articles,
     List<Article>? originalArticles,
@@ -37,6 +38,7 @@ class HomeSuccessState extends HomeState {
     String? pickedImageLink,
     int? currentSlideIndex,
     UserModel? userModel,
+    bool? isObscured,
   }) {
     return HomeSuccessState(
       articles: articles ?? this.articles,
@@ -47,6 +49,7 @@ class HomeSuccessState extends HomeState {
       currentSlideIndex: currentSlideIndex ?? this.currentSlideIndex,
       originalArticles: originalArticles ?? this.originalArticles,
       userModel: userModel ?? this.userModel,
+      isObscured: isObscured ?? this.isObscured,
     );
   }
 }
