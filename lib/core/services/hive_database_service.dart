@@ -20,6 +20,10 @@ class HiveDatabaseService {
     boxUsers.put(userKey, userModel);
   }
 
+  void deleteUserModel() {
+    boxUsers.delete(userKey);
+  }
+
   UserModel? getUserModel() {
     final UserModel? userModel = boxUsers.get(userKey);
     return userModel;

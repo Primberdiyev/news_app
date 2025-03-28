@@ -30,6 +30,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<GetUserModel>(getUserModel);
     on<PickUserImageEvent>(pickUserImage);
     on<ChangeShowPasswordValueEvent>(changeShowPasswordValue);
+    on<DeleteUserModelEvent>(deleteUserModel);
   }
 
   final IsarDatabaseService databaseService = IsarDatabaseService();
@@ -192,5 +193,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       ChangeShowPasswordValueEvent event, Emitter<HomeState> emit) {
     final currentState = state as HomeSuccessState;
     emit(currentState.copyWith(isObscured: !currentState.isObscured));
+  }
+
+  void deleteUserModel(DeleteUserModelEvent event, Emitter<HomeState> emit) {
+    hiveDatabaseService.deleteUserModel();
   }
 }

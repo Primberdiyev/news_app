@@ -4,6 +4,7 @@ import 'package:news_app/core/ui_kit/custom_button.dart';
 import 'package:news_app/core/ui_kit/custom_text_field.dart';
 import 'package:news_app/features/home/bloc/home_bloc.dart';
 import 'package:news_app/features/home/ui/profile/widgets/build_user_image.dart';
+import 'package:news_app/features/routes/name_routes.dart';
 import 'package:news_app/features/utils/app_colors.dart';
 import 'package:news_app/features/utils/app_images.dart';
 import 'package:news_app/features/utils/app_text_styles.dart';
@@ -66,19 +67,27 @@ class _ProfileState extends State<Profile> {
                     .add(ChangeShowPasswordValueEvent()),
               ),
               SizedBox(height: 20),
-              Row(
-                children: [
-                  Image.asset(
-                    AppImages.logOut.image,
-                    height: 30,
-                    width: 30,
-                  ),
-                  Text(
-                    AppTexts.logOut,
-                    style:
-                        AppTextStyles.body18W400.copyWith(color: AppColors.red),
-                  ),
-                ],
+              GestureDetector(
+                onTap: () {
+                  context.read<HomeBloc>().add(
+                        DeleteUserModelEvent(),
+                      );
+                  Navigator.pushReplacementNamed(context, NameRoutes.signIn);
+                },
+                child: Row(
+                  children: [
+                    Image.asset(
+                      AppImages.logOut.image,
+                      height: 30,
+                      width: 30,
+                    ),
+                    Text(
+                      AppTexts.logOut,
+                      style: AppTextStyles.body18W400
+                          .copyWith(color: AppColors.red),
+                    ),
+                  ],
+                ),
               ),
               Spacer(),
               Row(

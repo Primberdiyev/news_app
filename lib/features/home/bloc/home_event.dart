@@ -69,3 +69,5 @@ class PickUserImageEvent extends HomeEvent {}
 class GetUserModel extends HomeEvent {}
 
 class ChangeShowPasswordValueEvent extends HomeEvent {}
+
+class DeleteUserModelEvent extends HomeEvent {}
