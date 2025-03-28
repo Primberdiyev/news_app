@@ -28,4 +28,9 @@ class AppTextStyles {
         fontWeight: FontWeight.w600,
         color: AppColors.black,
       );
+  static TextStyle get body18W400 => TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.w400,
+        color: AppColors.black,
+      );
 }

@@ -29,4 +29,8 @@ class AppTexts {
   static const String technology = 'technology';
   static const String us = 'us';
   static const String tesla = 'Tesla';
+  static const String changeName = 'Change account name';
+  static const String changPassword = 'Change account password';
+  static const String logOut = 'Log out';
+  static const String edit = 'Edit';
 }

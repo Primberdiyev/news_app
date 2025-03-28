@@ -11,4 +11,5 @@ class AppColors {
   static Color textFieldColor = Color(0xFFF4F4F4);
   static Color primary = Color(0xFF8E6CEF);
   static Color authorColor = Color(0xFF909090);
+  static Color dividerColor = Color(0xFF979797);
 }
