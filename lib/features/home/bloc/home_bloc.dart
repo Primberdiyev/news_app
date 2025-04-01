@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:news_app/core/services/hive_database_service.dart';
 import 'package:news_app/features/auth/models/user_model.dart';
@@ -40,20 +39,31 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final defaultCategory = SortComponents.categories.first;
   final HiveDatabaseService hiveDatabaseService = HiveDatabaseService();
   void getNewsEvent(GetNewsEvent event, Emitter<HomeState> emit) async {
+    final currentState = state;
     emit(HomeLoadingState());
-
     try {
       final news = await newsRepositories.setAndGetNews(
         country: event.country?.shortName,
         category: event.categoryName,
         isTesla: event.isTesla ?? false,
       );
-      emit(HomeSuccessState(
+      if (currentState is HomeSuccessState) {
+        emit(currentState.copyWith(
           articles: news,
           selectedCountry: event.country,
           selectedCategory: event.categoryName,
           filterType: event.filterType,
-          originalArticles: news));
+          originalArticles: news,
+        ));
+      } else {
+        emit(HomeSuccessState(
+          articles: news,
+          selectedCountry: event.country,
+          selectedCategory: event.categoryName,
+          filterType: event.filterType,
+          originalArticles: news,
+        ));
+      }
     } catch (e) {
       emit(HomeErrorState(errorMessage: e.toString()));
     }
@@ -61,6 +71,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   void changeFilterType(
       ChangeFilterTypeEvent event, Emitter<HomeState> emit) async {
+    final currenState = state as HomeSuccessState;
     emit(HomeLoadingState());
     try {
       final String? category =
@@ -69,7 +80,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           event.filterType == AppTexts.country ? defaultCountry : null;
       final news = await newsRepositories.setAndGetNews(
           country: country?.shortName, category: category);
-      emit(HomeSuccessState(
+
+      emit(currenState.copyWith(
         articles: news,
         filterType: event.filterType,
         selectedCountry: country,
