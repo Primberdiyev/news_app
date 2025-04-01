@@ -71,3 +71,8 @@ class GetUserModel extends HomeEvent {}
 class ChangeShowPasswordValueEvent extends HomeEvent {}
 
 class DeleteUserModelEvent extends HomeEvent {}
+
+class ChangeUserDetailEvent extends HomeEvent {
+  ChangeUserDetailEvent({required this.userModel});
+  UserModel userModel;
+}

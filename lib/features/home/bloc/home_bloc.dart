@@ -31,6 +31,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<PickUserImageEvent>(pickUserImage);
     on<ChangeShowPasswordValueEvent>(changeShowPasswordValue);
     on<DeleteUserModelEvent>(deleteUserModel);
+    on<ChangeUserDetailEvent>(changeUserDetail);
   }
 
   final IsarDatabaseService databaseService = IsarDatabaseService();
@@ -197,5 +198,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   void deleteUserModel(DeleteUserModelEvent event, Emitter<HomeState> emit) {
     hiveDatabaseService.deleteUserModel();
+  }
+
+  void changeUserDetail(ChangeUserDetailEvent event, Emitter<HomeState> emit) {
+    final currentState = state as HomeSuccessState;
+    hiveDatabaseService.writeToLocal(userModel: event.userModel);
+    final userModel = hiveDatabaseService.getUserModel();
+    emit(currentState.copyWith(userModel: userModel));
   }
 }

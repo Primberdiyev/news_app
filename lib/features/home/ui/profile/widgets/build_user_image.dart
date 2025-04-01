@@ -20,7 +20,7 @@ class BuildUserImage extends StatelessWidget {
           },
           child: CircleAvatar(
             radius: 80,
-            backgroundImage: imageLink != null
+            backgroundImage: imageLink != null && File(imageLink).existsSync()
                 ? FileImage(File(imageLink))
                 : AssetImage(
                     AppImages.userDefault.image,

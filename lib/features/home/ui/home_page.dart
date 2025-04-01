@@ -53,6 +53,9 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+      ),
       bottomNavigationBar: ValueListenableBuilder(
         valueListenable: currentPagenIndex,
         builder: (context, value, child) {

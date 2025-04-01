@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/ui_kit/custom_button.dart';
 import 'package:news_app/core/ui_kit/custom_text_field.dart';
+import 'package:news_app/features/auth/models/user_model.dart';
 import 'package:news_app/features/home/bloc/home_bloc.dart';
 import 'package:news_app/features/home/ui/profile/widgets/build_user_image.dart';
 import 'package:news_app/features/routes/name_routes.dart';
@@ -19,7 +20,7 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   final TextEditingController nameController = TextEditingController();
-  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
   @override
   void initState() {
     context.read<HomeBloc>().add(GetUserModel());
@@ -29,7 +30,7 @@ class _ProfileState extends State<Profile> {
   @override
   void dispose() {
     nameController.dispose();
-    lastNameController.dispose();
+    passwordController.dispose();
     super.dispose();
   }
 
@@ -42,7 +43,7 @@ class _ProfileState extends State<Profile> {
         String lastName =
             (state is HomeSuccessState) ? state.userModel?.password ?? "" : '';
         nameController.text = userName;
-        lastNameController.text = lastName;
+        passwordController.text = lastName;
       },
       builder: (context, state) {
         return Padding(
@@ -57,7 +58,7 @@ class _ProfileState extends State<Profile> {
               CustomTextField(
                   controller: nameController, hintText: AppTexts.firstName),
               CustomTextField(
-                controller: lastNameController,
+                controller: passwordController,
                 hintText: AppTexts.password,
                 showPassword:
                     state is HomeSuccessState ? state.isObscured : false,
@@ -98,7 +99,17 @@ class _ProfileState extends State<Profile> {
                       color: AppColors.primary,
                       text: AppTexts.save,
                       textColor: AppColors.white,
-                      function: () {},
+                      function: () {
+                        final UserModel? userModel =
+                            state is HomeSuccessState ? state.userModel : null;
+                        final newUserModel = userModel?.copyWith(
+                              firstName: nameController.text,
+                              password: passwordController.text,
+                            ) ??
+                            ({} as UserModel);
+                        context.read<HomeBloc>().add(
+                            ChangeUserDetailEvent(userModel: newUserModel));
+                      },
                     ),
                   ),
                 ],
